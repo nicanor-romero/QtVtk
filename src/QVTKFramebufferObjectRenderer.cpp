@@ -180,9 +180,6 @@ void QVTKFramebufferObjectRenderer::render()
 	{
 		this->selectModel(m_mouseLeftButton->x(), m_mouseLeftButton->y());
 		m_mouseLeftButton->accept();
-
-		qDebug() << "QVTKFramebufferObjectRenderer::render(): Unlocking mutex";
-		selectedModelMutex.unlock();
 	}
 
 	// Model transformations
@@ -488,16 +485,12 @@ void QVTKFramebufferObjectRenderer::setIsModelSelected(bool isModelSelected)
 
 bool QVTKFramebufferObjectRenderer::isModelSelected()
 {
-	selectedModelMutex.lock();
-	bool isModelSelected = m_isModelSelected;
-	selectedModelMutex.unlock();
-	return isModelSelected;
+	return m_isModelSelected;
 }
 
 std::shared_ptr<Model> QVTKFramebufferObjectRenderer::getSelectedModel()
 {
 	std::shared_ptr<Model> selectedModel = this->getSelectedModelNoLock();
-	selectedModelMutex.unlock();
 
 	return selectedModel;
 }

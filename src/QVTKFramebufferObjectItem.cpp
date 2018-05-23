@@ -52,12 +52,7 @@ void QVTKFramebufferObjectItem::setProcessingEngine(std::shared_ptr<ProcessingEn
 
 bool QVTKFramebufferObjectItem::isModelSelected()
 {
-	if (m_vtkFboRenderer->selectedModelMutex.try_lock())
-	{
-		m_vtkFboRenderer->selectedModelMutex.unlock();
-		return m_vtkFboRenderer->isModelSelected();
-	}
-	return false;
+	return m_vtkFboRenderer->isModelSelected();
 }
 
 double QVTKFramebufferObjectItem::getSelectedModelPositionX()
@@ -73,24 +68,18 @@ double QVTKFramebufferObjectItem::getSelectedModelPositionY()
 
 void QVTKFramebufferObjectItem::selectModel(int screenX, int screenY)
 {
-	if (m_vtkFboRenderer->selectedModelMutex.try_lock())
-	{
 		*m_lastMouseLeftButton = QMouseEvent(QEvent::None, QPointF(screenX, screenY), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
 		m_lastMouseLeftButton->ignore();
 
 		update();
-	}
 }
 
 void QVTKFramebufferObjectItem::resetModelSelection()
 {
-	if (m_vtkFboRenderer->selectedModelMutex.try_lock())
-	{
 		*m_lastMouseLeftButton = QMouseEvent(QEvent::None, QPointF(-1, -1), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
 		m_lastMouseLeftButton->ignore();
 
 		update();
-	}
 }
 
 void QVTKFramebufferObjectItem::addModelFromFile(QUrl modelPath)
