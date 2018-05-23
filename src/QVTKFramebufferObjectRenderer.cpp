@@ -55,7 +55,6 @@ QVTKFramebufferObjectRenderer::QVTKFramebufferObjectRenderer()
 	m_wheelEvent = new QWheelEvent(QPointF(0,0), 0, Qt::NoButton, Qt::NoModifier, Qt::Vertical);
 
 	update();
-	initScene();
 }
 
 
@@ -118,6 +117,12 @@ void QVTKFramebufferObjectRenderer::render()
 	m_vtkRenderWindow->PushState();
 	this->openGLInitState();
 	m_vtkRenderWindow->Start();
+
+	if (m_firstRender)
+	{
+		this->initScene();
+		m_firstRender = false;
+	}
 
 	// Process camera related commands
 

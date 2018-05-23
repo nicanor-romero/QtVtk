@@ -111,6 +111,8 @@ private:
 	double m_camPositionZ;
 
 	double m_clickPositionZ = 0.0;
+
+	bool m_firstRender = true;
 };
 
 #endif // QVTKFRAMEBUFFEROBJECTRENDERER_H
