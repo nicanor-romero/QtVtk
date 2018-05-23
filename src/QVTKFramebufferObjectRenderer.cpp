@@ -226,8 +226,6 @@ void QVTKFramebufferObjectRenderer::openGLInitState()
 	m_vtkRenderWindow->MakeCurrent();
 	QOpenGLFunctions::initializeOpenGLFunctions();
 	QOpenGLFunctions::glUseProgram(0);
-	//QOpenGLFunctions::glDisable(GL_DEPTH_TEST); // This causes the depth issues
-	//QOpenGLFunctions::glDisable(GL_BLEND);
 }
 
 QOpenGLFramebufferObject *QVTKFramebufferObjectRenderer::createFramebufferObject(const QSize &size)
@@ -248,11 +246,6 @@ QOpenGLFramebufferObject *QVTKFramebufferObjectRenderer::createFramebufferObject
 	m_vtkRenderWindow->SetFrontBuffer(GL_COLOR_ATTACHMENT0);
 	m_vtkRenderWindow->SetSize(framebufferObject->size().width(), framebufferObject->size().height());
 	m_vtkRenderWindow->SetOffScreenRendering(true);
-	//    m_vtkRenderWindow->NumberOfFrameBuffers = 1;
-	//    m_vtkRenderWindow->FrameBufferObject = static_cast<unsigned int>(framebufferObject->handle());
-	//    m_vtkRenderWindow->DepthRenderBufferObject = 0;
-	//    m_vtkRenderWindow->TextureObjects[0] = static_cast<unsigned int>(framebufferObject->texture());
-	//    m_vtkRenderWindow->OffScreenUseFrameBuffer = 1;
 	m_vtkRenderWindow->Modified();
 
 	return framebufferObject.release();
