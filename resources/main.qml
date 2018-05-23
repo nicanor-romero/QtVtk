@@ -52,6 +52,7 @@ ApplicationWindow {
 
         Label {
             id: positionLabelX
+            visible: canvasHandler.isModelSelected
             text: "X: " + canvasHandler.modelPositionX
             color: "white"
             font.pixelSize: 20
@@ -62,6 +63,7 @@ ApplicationWindow {
 
         Label {
             id: positionLabelY
+            visible: canvasHandler.isModelSelected
             text: "Y: " + canvasHandler.modelPositionY
             color: "white"
             font.pixelSize: 20
