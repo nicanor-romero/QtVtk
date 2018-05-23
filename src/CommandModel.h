@@ -7,12 +7,13 @@ class QVTKFramebufferObjectRenderer;
 class CommandModel
 {
 public:
-	virtual bool isReady();
-	virtual void execute();
+	CommandModel(){}
+	virtual ~CommandModel(){}
+
+	virtual bool isReady() = 0;
+	virtual void execute() = 0;
 
 protected:
-	CommandModel(QVTKFramebufferObjectRenderer *vtkFboRenderer);
-
 	QVTKFramebufferObjectRenderer *m_vtkFboRenderer;
 };
 

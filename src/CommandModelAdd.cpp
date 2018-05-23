@@ -5,11 +5,10 @@
 
 
 CommandModelAdd::CommandModelAdd(QVTKFramebufferObjectRenderer *vtkFboRenderer, std::shared_ptr<ProcessingEngine> processingEngine, QUrl modelPath)
-	: CommandModel{vtkFboRenderer}
-	, m_processingEngine{processingEngine}
+	: m_processingEngine{processingEngine}
 	, m_modelPath{modelPath}
-	, m_applyTransformations{false}
 {
+	m_vtkFboRenderer = vtkFboRenderer;
 }
 
 

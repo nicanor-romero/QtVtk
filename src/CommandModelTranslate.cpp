@@ -1,17 +1,21 @@
 #include <array>
 
-#include <vtkProperty.h>
-
 #include "CommandModelTranslate.h"
 #include "Model.h"
 #include "QVTKFramebufferObjectRenderer.h"
 
 
 CommandModelTranslate::CommandModelTranslate(QVTKFramebufferObjectRenderer *vtkFboRenderer, const TranslateParams_t & translateData, bool inTransition)
-	: CommandModel{vtkFboRenderer}
-	, m_translateParams{translateData}
+	: m_translateParams{translateData}
 	, m_inTransition{inTransition}
-{}
+{
+	m_vtkFboRenderer = vtkFboRenderer;
+}
+
+bool CommandModelTranslate::isReady()
+{
+	return true;
+}
 
 void CommandModelTranslate::transformCoordinates()
 {

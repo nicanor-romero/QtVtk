@@ -35,7 +35,6 @@ private:
 	QUrl m_modelPath;
 	double m_positionX;
 	double m_positionY;
-	bool m_applyTransformations;
 
 	bool m_ready = false;
 };
