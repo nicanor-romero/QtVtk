@@ -18,6 +18,7 @@ ApplicationWindow {
     Rectangle {
         id: screenCanvasUI
         anchors.fill: parent
+
         VtkFboItem {
             id: vtkFboItem
             objectName: "vtkFboItem"
@@ -40,6 +41,7 @@ ApplicationWindow {
         }
 
         Button {
+            id: openFileButton
             text: "Open file"
             highlighted: true
             anchors.right: parent.right
@@ -47,9 +49,27 @@ ApplicationWindow {
             anchors.margins: 50
             onClicked: canvasHandler.showFileDialog = true;
         }
-    }
 
-    // File Dialogs
+        Label {
+            id: positionLabelX
+            text: "X: " + canvasHandler.modelPositionX
+            color: "white"
+            font.pixelSize: 20
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.margins: 50
+        }
+
+        Label {
+            id: positionLabelY
+            text: "Y: " + canvasHandler.modelPositionY
+            color: "white"
+            font.pixelSize: 20
+            anchors.top: positionLabelX.bottom
+            anchors.left: parent.left
+            anchors.margins: 50
+        }
+    }
 
     FileDialog {
         id: openModelsFileDialog
