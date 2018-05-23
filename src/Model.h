@@ -21,20 +21,17 @@ public:
 	Model(vtkSmartPointer<vtkPolyData> modelData);
 
 	vtkSmartPointer<vtkActor> getModelActor();
-	double getMouseDeltaX();
-	double getMouseDeltaY();
 
 	double getPositionX();
 	double getPositionY();
 
-	void translate(double deltaX, double deltaY);
 	void translateToPosition(double x, double y);
 
 	void setSelected(bool selected);
-	void setMouseDeltaXY(double deltaX, double deltaY);
 
-	void updateModelColor();
-	void setColor(QColor color);
+	double getMouseDeltaX();
+	double getMouseDeltaY();
+	void setMouseDeltaXY(double deltaX, double deltaY);
 
 signals:
 	void positionXChanged(double positionX);
@@ -44,8 +41,11 @@ private:
 	static QColor m_defaultModelColor;
 	static QColor m_selectedModelColor;
 
-	void setPositionXChanged();
-	void setPositionYChanged();
+	void setPositionX(double positionX);
+	void setPositionY(double positionY);
+
+	void updateModelColor();
+	void setColor(QColor color);
 
 	vtkSmartPointer<vtkPolyData> m_modelData;
 	vtkSmartPointer<vtkPolyDataMapper> m_modelMapper;

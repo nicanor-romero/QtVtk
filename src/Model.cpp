@@ -63,6 +63,24 @@ double Model::getPositionY()
 	return positionY;
 }
 
+void Model::setPositionX(double positionX)
+{
+	if (m_positionX != positionX)
+	{
+		m_positionX = positionX;
+		emit positionXChanged(m_positionX);
+	}
+}
+
+void Model::setPositionY(double positionY)
+{
+	if (m_positionY != positionY)
+	{
+		m_positionY = positionY;
+		emit positionYChanged(m_positionY);
+	}
+}
+
 
 void Model::translateToPosition(double x, double y)
 {
@@ -72,24 +90,16 @@ void Model::translateToPosition(double x, double y)
 	}
 
 	m_propertiesMutex.lock();
-	m_positionX = x;
-	m_positionY = y;
+	this->setPositionX(x);
+	this->setPositionY(y);
 	m_propertiesMutex.unlock();
 
 	vtkSmartPointer<vtkTransform> translation = vtkSmartPointer<vtkTransform>::New();
 	translation->Translate(m_positionX, m_positionY, m_positionZ);
 	m_modelFilterTranslate->SetTransform(translation);
 	m_modelFilterTranslate->Update();
-}
 
-
-void Model::setPositionXChanged()
-{
 	emit positionXChanged(m_positionX);
-}
-
-void Model::setPositionYChanged()
-{
 	emit positionYChanged(m_positionY);
 }
 
@@ -126,6 +136,7 @@ void Model::setColor(QColor color)
 {
 	m_modelActor->GetProperty()->SetColor(color.redF(), color.greenF(), color.blueF());
 }
+
 
 double Model::getMouseDeltaX()
 {
