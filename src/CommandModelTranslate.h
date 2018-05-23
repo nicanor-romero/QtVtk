@@ -3,7 +3,6 @@
 
 #include <memory>
 
-#include <QUndoCommand>
 #include <QVector>
 
 #include "CommandModel.h"
@@ -28,16 +27,13 @@ public:
 
 	CommandModelTranslate(QVTKFramebufferObjectRenderer *vtkFboRenderer, const TranslateParams_t & translateVector, bool inTransition);
 
-	bool addToStack() override;
-	void undo() override;
-	void redo() override;
+	void execute() override;
 
 private:
 	void transformCoordinates();
 
 	TranslateParams_t m_translateParams;
 	bool m_inTransition;
-	bool m_addToStack;
 	bool m_needsTransformation = true;
 };
 

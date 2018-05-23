@@ -39,9 +39,6 @@ public:
 	virtual void openGLInitState();
 	QOpenGLFramebufferObject *createFramebufferObject(const QSize &size);
 
-	void redo();
-	void undo();
-
 	void addModelActor(std::shared_ptr<Model> model);
 	void deleteModel(std::shared_ptr<Model> model);
 
@@ -85,7 +82,6 @@ private:
 	vtkSmartPointer<vtkGenericRenderWindowInteractor> m_vtkRenderWindowInteractor;
 
 	vtkSmartPointer<vtkCellPicker> m_picker;
-	std::unique_ptr<QUndoStack> m_undoStack;
 
 	std::shared_ptr<Model> m_selectedModel = nullptr;
 	vtkSmartPointer<vtkActor> m_selectedActor = nullptr;

@@ -4,7 +4,6 @@
 #include <memory>
 
 #include <QUrl>
-#include <QUndoCommand>
 #include <QThread>
 
 #include "CommandModel.h"
@@ -24,9 +23,7 @@ public:
 	void run() Q_DECL_OVERRIDE;
 
 	bool isReady() override;
-	bool addToStack() override;
-	void undo() override;
-	void redo() override;
+	void execute() override;
 
 signals:
 	void ready();
@@ -41,7 +38,6 @@ private:
 	bool m_applyTransformations;
 
 	bool m_ready = false;
-	bool m_addToStack = true;
 };
 
 #endif // COMMANDMODELADD_H

@@ -12,6 +12,7 @@ CommandModelAdd::CommandModelAdd(QVTKFramebufferObjectRenderer *vtkFboRenderer, 
 {
 }
 
+
 void CommandModelAdd::run()
 {
 	qDebug() << "CommandModelAdd::run()";
@@ -30,19 +31,9 @@ bool CommandModelAdd::isReady()
 	return m_ready;
 }
 
-bool CommandModelAdd::addToStack()
+void CommandModelAdd::execute()
 {
-	return m_addToStack;
-}
-
-void CommandModelAdd::undo()
-{
-	qDebug() << "CommandModelAdd::undo(): Delete the model";
-}
-
-void CommandModelAdd::redo()
-{
-	qDebug() << "CommandModelAdd::redo()";
+	qDebug() << "CommandModelAdd::execute()";
 
 	m_vtkFboRenderer->addModelActor(m_model);
 

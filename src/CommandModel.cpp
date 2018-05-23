@@ -13,20 +13,6 @@ bool CommandModel::isReady()
 	return true;
 }
 
-bool CommandModel::addToStack()
-{
-	return true;
-}
-
-void CommandModel::redo()
-{
-}
-
-void CommandModel::undo()
-{
-}
-
 void CommandModel::execute()
 {
-	this->redo();
 }

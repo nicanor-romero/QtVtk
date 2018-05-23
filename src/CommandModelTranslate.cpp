@@ -11,13 +11,7 @@ CommandModelTranslate::CommandModelTranslate(QVTKFramebufferObjectRenderer *vtkF
 	: CommandModel{vtkFboRenderer}
 	, m_translateParams{translateData}
 	, m_inTransition{inTransition}
-	, m_addToStack{!inTransition}	
 {}
-
-bool CommandModelTranslate::addToStack()
-{
-	return m_addToStack;
-}
 
 void CommandModelTranslate::transformCoordinates()
 {
@@ -37,14 +31,9 @@ void CommandModelTranslate::transformCoordinates()
 	m_needsTransformation = false;
 }
 
-void CommandModelTranslate::undo()
+void CommandModelTranslate::execute()
 {
-	m_translateParams.model->translateToPosition(m_translateParams.previousPositionX, m_translateParams.previousPositionY);
-}
-
-void CommandModelTranslate::redo()
-{
-	// Screen to world transformation can only be done within the redo/undo
+	// Screen to world transformation can only be done within the Renderer thread
 	if (m_needsTransformation)
 	{
 		this->transformCoordinates();

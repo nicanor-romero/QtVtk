@@ -1,18 +1,13 @@
 #ifndef COMMANDMODEL_H
 #define COMMANDMODEL_H
 
-#include <QUndoCommand>
-
 
 class QVTKFramebufferObjectRenderer;
 
-class CommandModel : public QUndoCommand
+class CommandModel
 {
 public:
 	virtual bool isReady();
-	virtual bool addToStack();
-	virtual void undo();
-	virtual void redo();
 	virtual void execute();
 
 protected:
