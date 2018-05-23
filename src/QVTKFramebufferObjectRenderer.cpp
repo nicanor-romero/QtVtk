@@ -401,33 +401,6 @@ void QVTKFramebufferObjectRenderer::addModelActor(std::shared_ptr<Model> model)
 	qDebug() << "QVTKFramebufferObjectRenderer::addModelActor(): Model added " << model.get();
 }
 
-void QVTKFramebufferObjectRenderer::deleteModel(std::shared_ptr<Model> model)
-{
-	qDebug() << "QVTKFramebufferObjectRenderer::deleteModel()";
-
-	m_renderer->RemoveActor(model->getModelActor());
-
-	std::vector<std::shared_ptr<Model>> models = m_processingEngine->getModels();
-
-	for (uint16_t i=0; i < models.size(); i++)
-	{
-		if (models[i] == model)
-		{
-			models.erase(models.begin()+i);
-
-			qDebug() << "QVTKFramebufferObjectRenderer::deleteModel(): deleted model from vector";
-
-			if (m_selectedModel && model == m_selectedModel)
-			{
-				this->clearSelectedModel();
-				this->setIsModelSelected(false);
-			}
-
-			break;
-		}
-	}
-}
-
 
 void QVTKFramebufferObjectRenderer::selectModel(int16_t x, int16_t y)
 {
