@@ -57,7 +57,7 @@ public:
 	void setProcessingEngine(std::shared_ptr<ProcessingEngine> processingEngine);
 
 signals:
-	void isModelSelectedChanged(bool isModelSelected);
+	void isModelSelectedChanged();
 
 	void selectedModelPositionXChanged();
 	void selectedModelPositionYChanged();

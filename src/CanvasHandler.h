@@ -27,6 +27,7 @@ public:
 	Q_INVOKABLE void mouseMoveEvent(int button, int mouseX, int mouseY);
 	Q_INVOKABLE void mouseReleaseEvent(int button, int mouseX, int mouseY);
 
+	bool getIsModelSelected();
 	double getSelectedModelPositionX();
 	double getSelectedModelPositionY();
 
@@ -34,10 +35,11 @@ public slots:
 	void startApplication();
 
 signals:
+	void showFileDialogChanged();
+
+	void isModelSelectedChanged();
 	void selectedModelPositionXChanged();
 	void selectedModelPositionYChanged();
-
-	void showFileDialogChanged();
 
 private:
 	void closeApplication();

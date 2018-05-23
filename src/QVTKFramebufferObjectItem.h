@@ -58,6 +58,7 @@ public:
 signals:
 	void rendererInitialized();
 
+	void isModelSelectedChanged();
 	void selectedModelPositionXChanged();
 	void selectedModelPositionYChanged();
 

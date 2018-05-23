@@ -484,7 +484,7 @@ void QVTKFramebufferObjectRenderer::setIsModelSelected(bool isModelSelected)
 	{
 		qDebug() << "QVTKFramebufferObjectRenderer::setIsModelSelected():" << isModelSelected;
 		m_isModelSelected = isModelSelected;
-		emit isModelSelectedChanged(m_isModelSelected);
+		emit isModelSelectedChanged();
 	}
 }
 
