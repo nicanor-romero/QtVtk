@@ -158,10 +158,22 @@ void CanvasHandler::mouseReleaseEvent(int button, int screenX, int screenY)
 
 double CanvasHandler::getSelectedModelPositionX()
 {
+	// QVTKFramebufferObjectItem might not be initialized when QML loads
+	if (!m_vtkFboItem)
+	{
+		return 0;
+	}
+
 	return m_vtkFboItem->getSelectedModelPositionX();
 }
 
 double CanvasHandler::getSelectedModelPositionY()
 {
+	// QVTKFramebufferObjectItem might not be initialized when QML loads
+	if (!m_vtkFboItem)
+	{
+		return 0;
+	}
+
 	return m_vtkFboItem->getSelectedModelPositionY();
 }

@@ -15,6 +15,8 @@ class CanvasHandler : public QObject
 	Q_OBJECT
 
 	Q_PROPERTY(bool showFileDialog MEMBER m_showFileDialog NOTIFY showFileDialogChanged)
+	Q_PROPERTY(double modelPositionX READ getSelectedModelPositionX NOTIFY selectedModelPositionXChanged)
+	Q_PROPERTY(double modelPositionY READ getSelectedModelPositionY NOTIFY selectedModelPositionYChanged)
 
 public:
 	CanvasHandler(int argc, char **argv);
