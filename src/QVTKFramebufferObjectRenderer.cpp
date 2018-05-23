@@ -4,7 +4,6 @@
 
 #include <vtkAxesActor.h>
 #include <vtkBoundedPlanePointPlacer.h>
-#include <vtkCallbackCommand.h>
 #include <vtkCamera.h>
 #include <vtkCaptionActor2D.h>
 #include <vtkCellArray.h>
@@ -57,6 +56,12 @@ QVTKFramebufferObjectRenderer::QVTKFramebufferObjectRenderer()
 
 	update();
 	initScene();
+}
+
+
+void QVTKFramebufferObjectRenderer::setProcessingEngine(std::shared_ptr<ProcessingEngine> processingEngine)
+{
+	m_processingEngine = std::shared_ptr<ProcessingEngine>(processingEngine);
 }
 
 
@@ -587,9 +592,4 @@ double QVTKFramebufferObjectRenderer::getSelectedModelPositionX()
 double QVTKFramebufferObjectRenderer::getSelectedModelPositionY()
 {
 	return m_selectedModelPositionY;
-}
-
-void QVTKFramebufferObjectRenderer::setProcessingEngine(std::shared_ptr<ProcessingEngine> processingEngine)
-{
-	m_processingEngine = std::shared_ptr<ProcessingEngine>(processingEngine);
 }
