@@ -55,6 +55,12 @@ public:
 
 	void resetCamera();
 
+	int getModelsRepresentation();
+	void setModelsRepresentation(int representationOption);
+
+	double getModelsOpacity();
+	void setModelsOpacity(double opacity);
+
 signals:
 	void rendererInitialized();
 
@@ -75,6 +81,9 @@ private:
 	QMouseEvent *m_lastMouseButton;
 	QMouseEvent *m_lastMouseMove;
 	QWheelEvent *m_lastMouseWheel;
+
+	int m_modelsRepresentationOption = 2;
+	double m_modelsOpacity = 1.0;
 };
 
 #endif // QVTKFRAMEBUFFEROBJECTITEM_H

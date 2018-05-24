@@ -21,7 +21,6 @@ QVTKFramebufferObjectItem::QVTKFramebufferObjectItem()
 
 QQuickFramebufferObject::Renderer *QVTKFramebufferObjectItem::createRenderer() const
 {
-	qDebug() << "QVTKFramebufferObjectItem::createRenderer";
 	return new QVTKFramebufferObjectRenderer();
 }
 
@@ -190,4 +189,32 @@ void QVTKFramebufferObjectItem::resetCamera()
 {
 	m_vtkFboRenderer->resetCamera();
 	update();
+}
+
+int QVTKFramebufferObjectItem::getModelsRepresentation()
+{
+	return m_modelsRepresentationOption;
+}
+
+void QVTKFramebufferObjectItem::setModelsRepresentation(int representationOption)
+{
+	if (m_modelsRepresentationOption != representationOption)
+	{
+		m_modelsRepresentationOption = representationOption;
+		update();
+	}
+}
+
+double QVTKFramebufferObjectItem::getModelsOpacity()
+{
+	return m_modelsOpacity;
+}
+
+void QVTKFramebufferObjectItem::setModelsOpacity(double opacity)
+{
+	if (m_modelsOpacity != opacity)
+	{
+		m_modelsOpacity = opacity;
+		update();
+	}
 }
