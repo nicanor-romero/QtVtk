@@ -110,6 +110,10 @@ void QVTKFramebufferObjectRenderer::synchronize(QQuickFramebufferObject *item)
 		*m_wheelEvent = *m_vtkFboItem->getLastWheelEvent();
 		m_vtkFboItem->getLastWheelEvent()->accept();
 	}
+
+	// Get extra data
+	m_modelsRepresentationOption = m_vtkFboItem->getModelsRepresentation();
+	m_modelsOpacity = m_vtkFboItem->getModelsOpacity();
 }
 
 void QVTKFramebufferObjectRenderer::render()
@@ -190,19 +194,16 @@ void QVTKFramebufferObjectRenderer::render()
 	// Model transformations
 
 	CommandModel *command;
-
 	while (!m_vtkFboItem->commandsQueue.empty())
 	{
 		m_vtkFboItem->commandsQueueMutex.lock();
 
 		command = m_vtkFboItem->commandsQueue.front();
-
 		if (!command->isReady())
 		{
 			m_vtkFboItem->commandsQueueMutex.unlock();
 			break;
 		}
-
 		m_vtkFboItem->commandsQueue.pop();
 
 		m_vtkFboItem->commandsQueueMutex.unlock();
@@ -212,6 +213,15 @@ void QVTKFramebufferObjectRenderer::render()
 
 	// Reset the view-up vector. This improves the interaction of the camera with the plate.
 	m_renderer->GetActiveCamera()->SetViewUp(0.0, 0.0, 1.0);
+
+	// Extra actions
+	std::vector<std::shared_ptr<Model>> models = m_processingEngine->getModels();
+
+	for (uint16_t i=0; i < models.size(); i++)
+	{
+		models[i]->getModelActor()->GetProperty()->SetRepresentation(m_modelsRepresentationOption);
+		models[i]->getModelActor()->GetProperty()->SetOpacity(m_modelsOpacity);
+	}
 
 	// Render
 	m_vtkRenderWindow->Render();
