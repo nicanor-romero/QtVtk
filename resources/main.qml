@@ -63,7 +63,8 @@ ApplicationWindow {
             currentIndex: 2
             anchors.left: parent.left
             anchors.top: parent.top
-            anchors.margins: 50
+            anchors.leftMargin: 40
+            anchors.topMargin: 30
 
             onActivated: canvasHandler.setModelsRepresentation(currentIndex);
         }
@@ -78,7 +79,8 @@ ApplicationWindow {
             stepSize: 0.01
             anchors.left: parent.left
             anchors.top: representationCombobox.bottom
-            anchors.margins: 50
+            anchors.leftMargin: 40
+            anchors.topMargin: 30
 
             onValueChanged: canvasHandler.setModelsOpacity(value);
         }
@@ -89,9 +91,49 @@ ApplicationWindow {
             text: "Gouraud interpolation"
             anchors.left: parent.left
             anchors.top: opacitySlider.bottom
-            anchors.margins: 50
+            anchors.leftMargin: 40
+            anchors.topMargin: 30
 
             onCheckedChanged: canvasHandler.setGouraudInterpolation(checked);
+        }
+
+        SpinBox {
+            id: modelColorR
+            visible: canvasHandler.isModelSelected
+            value: 2
+            from: 0
+            to: 255
+            onValueChanged: canvasHandler.setModelColorR(value);
+            anchors.left: parent.left
+            anchors.top: gouraudInterpolationSwitch.bottom
+            anchors.leftMargin: 40
+            anchors.topMargin: 30
+        }
+
+        SpinBox {
+            id: modelColorG
+            visible: canvasHandler.isModelSelected
+            value: 119
+            from: 0
+            to: 255
+            onValueChanged: canvasHandler.setModelColorG(value);
+            anchors.left: parent.left
+            anchors.top: modelColorR.bottom
+            anchors.leftMargin: 40
+            anchors.topMargin: 25
+        }
+
+        SpinBox {
+            id: modelColorB
+            visible: canvasHandler.isModelSelected
+            value: 189
+            from: 0
+            to: 255
+            onValueChanged: canvasHandler.setModelColorB(value);
+            anchors.left: parent.left
+            anchors.top: modelColorG.bottom
+            anchors.leftMargin: 40
+            anchors.topMargin: 25
         }
 
         Label {
@@ -101,7 +143,7 @@ ApplicationWindow {
             font.pixelSize: 12
             anchors.bottom: positionLabelY.top
             anchors.left: parent.left
-            anchors.margins: 20
+            anchors.margins: 40
         }
 
         Label {
@@ -111,7 +153,7 @@ ApplicationWindow {
             font.pixelSize: 12
             anchors.bottom: parent.bottom
             anchors.left: parent.left
-            anchors.margins: 20
+            anchors.margins: 40
         }
     }
 

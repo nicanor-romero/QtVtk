@@ -208,3 +208,18 @@ void CanvasHandler::setGouraudInterpolation(bool gouraudInterpolation)
 {
 	m_vtkFboItem->setGouraudInterpolation(gouraudInterpolation);
 }
+
+void CanvasHandler::setModelColorR(int colorR)
+{
+	m_vtkFboItem->setModelColorR(colorR);
+}
+
+void CanvasHandler::setModelColorG(int colorG)
+{
+	m_vtkFboItem->setModelColorG(colorG);
+}
+
+void CanvasHandler::setModelColorB(int colorB)
+{
+	m_vtkFboItem->setModelColorB(colorB);
+}
