@@ -159,15 +159,11 @@ void CanvasHandler::mouseReleaseEvent(int button, int screenX, int screenY)
 
 bool CanvasHandler::getIsModelSelected()
 {
-	qDebug() << "CanvasHandler::getIsModelSelected()";
-
 	// QVTKFramebufferObjectItem might not be initialized when QML loads
 	if (!m_vtkFboItem)
 	{
 		return 0;
 	}
-
-	qDebug() << "CanvasHandler::getIsModelSelected():" << m_vtkFboItem->isModelSelected();
 
 	return m_vtkFboItem->isModelSelected();
 }
