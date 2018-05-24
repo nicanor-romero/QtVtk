@@ -115,6 +115,7 @@ void QVTKFramebufferObjectRenderer::synchronize(QQuickFramebufferObject *item)
 	m_modelsRepresentationOption = m_vtkFboItem->getModelsRepresentation();
 	m_modelsOpacity = m_vtkFboItem->getModelsOpacity();
 	m_gouraudInterpolation = m_vtkFboItem->getGourauInterpolation();
+	Model::setSelectedModelColor(QColor(m_vtkFboItem->getModelColorR(), m_vtkFboItem->getModelColorG(), m_vtkFboItem->getModelColorB()));
 }
 
 void QVTKFramebufferObjectRenderer::render()
@@ -222,6 +223,8 @@ void QVTKFramebufferObjectRenderer::render()
 	{
 		models[i]->getModelActor()->GetProperty()->SetRepresentation(m_modelsRepresentationOption);
 		models[i]->getModelActor()->GetProperty()->SetOpacity(m_modelsOpacity);
+		models[i]->updateModelColor();
+
 		if (m_gouraudInterpolation)
 		{
 			models[i]->getModelActor()->GetProperty()->SetInterpolationToGouraud();

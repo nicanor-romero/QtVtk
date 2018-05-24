@@ -58,10 +58,16 @@ public:
 	int getModelsRepresentation();
 	double getModelsOpacity();
 	bool getGourauInterpolation();
+	int getModelColorR();
+	int getModelColorG();
+	int getModelColorB();
 
 	void setModelsRepresentation(int representationOption);
 	void setModelsOpacity(double opacity);
 	void setGouraudInterpolation(bool gouraudInterpolation);
+	void setModelColorR(int colorR);
+	void setModelColorG(int colorG);
+	void setModelColorB(int colorB);
 
 signals:
 	void rendererInitialized();
@@ -87,6 +93,9 @@ private:
 	int m_modelsRepresentationOption = 2;
 	double m_modelsOpacity = 1.0;
 	bool m_gouraudInterpolation = false;
+	int m_modelColorR = 2;
+	int m_modelColorG = 119;
+	int m_modelColorB = 189;
 };
 
 #endif // QVTKFRAMEBUFFEROBJECTITEM_H

@@ -215,6 +215,21 @@ bool QVTKFramebufferObjectItem::getGourauInterpolation()
 	return m_gouraudInterpolation;
 }
 
+int QVTKFramebufferObjectItem::getModelColorR()
+{
+	return m_modelColorR;
+}
+
+int QVTKFramebufferObjectItem::getModelColorG()
+{
+	return m_modelColorG;
+}
+
+int QVTKFramebufferObjectItem::getModelColorB()
+{
+	return m_modelColorB;
+}
+
 void QVTKFramebufferObjectItem::setModelsOpacity(double opacity)
 {
 	if (m_modelsOpacity != opacity)
@@ -232,3 +247,31 @@ void QVTKFramebufferObjectItem::setGouraudInterpolation(bool gouraudInterpolatio
 		update();
 	}
 }
+
+void QVTKFramebufferObjectItem::setModelColorR(int colorR)
+{
+	if (m_modelColorR != colorR)
+	{
+		m_modelColorR = colorR;
+		update();
+	}
+}
+
+void QVTKFramebufferObjectItem::setModelColorG(int colorG)
+{
+	if (m_modelColorG != colorG)
+	{
+		m_modelColorG = colorG;
+		update();
+	}
+}
+
+void QVTKFramebufferObjectItem::setModelColorB(int colorB)
+{
+	if (m_modelColorB != colorB)
+	{
+		m_modelColorB = colorB;
+		update();
+	}
+}
+
