@@ -32,6 +32,9 @@ public:
 	double getSelectedModelPositionX();
 	double getSelectedModelPositionY();
 
+	Q_INVOKABLE void setModelsRepresentation(int representationOption);
+	Q_INVOKABLE void setModelsOpacity(double opacity);
+
 public slots:
 	void startApplication();
 

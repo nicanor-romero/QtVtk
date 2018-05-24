@@ -13,7 +13,8 @@ ApplicationWindow {
     visible: true
     title: "QtVTK"
 
-    Material.accent: Material.Blue
+    Material.primary: Material.Indigo
+    Material.accent: Material.LightBlue
 
     Rectangle {
         id: screenCanvasUI
@@ -48,28 +49,58 @@ ApplicationWindow {
             anchors.bottom: parent.bottom
             anchors.margins: 50
             onClicked: canvasHandler.showFileDialog = true;
+
+            ToolTip.visible: hovered
+            ToolTip.delay: 1000
+            ToolTip.text: "Open a 3D model into the canvas"
+        }
+
+        ComboBox {
+            id: representationCombobox
+            visible: canvasHandler.isModelSelected
+            width: 200
+            model: ["Points", "Wireframe", "Surface"]
+            currentIndex: 2
+            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.margins: 50
+
+            onActivated: canvasHandler.setModelsRepresentation(currentIndex);
+        }
+
+        Slider {
+            id: opacitySlider
+            visible: canvasHandler.isModelSelected
+            width: 200
+            value: 1
+            from: 0.1
+            to: 1
+            stepSize: 0.01
+            anchors.left: parent.left
+            anchors.top: representationCombobox.bottom
+            anchors.margins: 50
+
+            onValueChanged: canvasHandler.setModelsOpacity(value);
         }
 
         Label {
             id: positionLabelX
             visible: canvasHandler.isModelSelected
             text: "X: " + canvasHandler.modelPositionX
-            color: "white"
-            font.pixelSize: 20
-            anchors.top: parent.top
+            font.pixelSize: 12
+            anchors.bottom: positionLabelY.top
             anchors.left: parent.left
-            anchors.margins: 50
+            anchors.margins: 20
         }
 
         Label {
             id: positionLabelY
             visible: canvasHandler.isModelSelected
             text: "Y: " + canvasHandler.modelPositionY
-            color: "white"
-            font.pixelSize: 20
-            anchors.top: positionLabelX.bottom
+            font.pixelSize: 12
+            anchors.bottom: parent.bottom
             anchors.left: parent.left
-            anchors.margins: 50
+            anchors.margins: 20
         }
     }
 

@@ -193,3 +193,13 @@ double CanvasHandler::getSelectedModelPositionY()
 
 	return m_vtkFboItem->getSelectedModelPositionY();
 }
+
+void CanvasHandler::setModelsRepresentation(int representationOption)
+{
+	m_vtkFboItem->setModelsRepresentation(representationOption);
+}
+
+void CanvasHandler::setModelsOpacity(double opacity)
+{
+	m_vtkFboItem->setModelsOpacity(opacity);
+}
