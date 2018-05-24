@@ -11,7 +11,7 @@
 
 
 QColor Model::m_defaultModelColor = QColor{"#0277bd"};
-QColor Model::m_selectedModelColor = QColor{"#004c8c"};
+QColor Model::m_selectedModelColor = QColor{"#03a9f4"};
 
 
 Model::Model(vtkSmartPointer<vtkPolyData> modelData)

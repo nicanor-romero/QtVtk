@@ -93,9 +93,9 @@ private:
 	int m_modelsRepresentationOption = 2;
 	double m_modelsOpacity = 1.0;
 	bool m_gouraudInterpolation = false;
-	int m_modelColorR = 2;
-	int m_modelColorG = 119;
-	int m_modelColorB = 189;
+	int m_modelColorR = 3;
+	int m_modelColorG = 169;
+	int m_modelColorB = 244;
 };
 
 #endif // QVTKFRAMEBUFFEROBJECTITEM_H

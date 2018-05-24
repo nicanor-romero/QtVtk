@@ -100,7 +100,7 @@ ApplicationWindow {
         SpinBox {
             id: modelColorR
             visible: canvasHandler.isModelSelected
-            value: 2
+            value: 3
             from: 0
             to: 255
             onValueChanged: canvasHandler.setModelColorR(value);
@@ -113,7 +113,7 @@ ApplicationWindow {
         SpinBox {
             id: modelColorG
             visible: canvasHandler.isModelSelected
-            value: 119
+            value: 169
             from: 0
             to: 255
             onValueChanged: canvasHandler.setModelColorG(value);
@@ -126,7 +126,7 @@ ApplicationWindow {
         SpinBox {
             id: modelColorB
             visible: canvasHandler.isModelSelected
-            value: 189
+            value: 244
             from: 0
             to: 255
             onValueChanged: canvasHandler.setModelColorB(value);
