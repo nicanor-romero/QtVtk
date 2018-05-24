@@ -68,18 +68,18 @@ double QVTKFramebufferObjectItem::getSelectedModelPositionY()
 
 void QVTKFramebufferObjectItem::selectModel(int screenX, int screenY)
 {
-		*m_lastMouseLeftButton = QMouseEvent(QEvent::None, QPointF(screenX, screenY), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
-		m_lastMouseLeftButton->ignore();
+	*m_lastMouseLeftButton = QMouseEvent(QEvent::None, QPointF(screenX, screenY), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+	m_lastMouseLeftButton->ignore();
 
-		update();
+	update();
 }
 
 void QVTKFramebufferObjectItem::resetModelSelection()
 {
-		*m_lastMouseLeftButton = QMouseEvent(QEvent::None, QPointF(-1, -1), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
-		m_lastMouseLeftButton->ignore();
+	*m_lastMouseLeftButton = QMouseEvent(QEvent::None, QPointF(-1, -1), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+	m_lastMouseLeftButton->ignore();
 
-		update();
+	update();
 }
 
 void QVTKFramebufferObjectItem::addModelFromFile(QUrl modelPath)
