@@ -153,3 +153,8 @@ void Model::setMouseDeltaXY(double deltaX, double deltaY)
 	m_mouseDeltaX = deltaX;
 	m_mouseDeltaY = deltaY;
 }
+
+void Model::setSelectedModelColor(QColor selectedModelColor)
+{
+	m_selectedModelColor = selectedModelColor;
+}

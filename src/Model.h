@@ -33,6 +33,9 @@ public:
 	double getMouseDeltaY();
 	void setMouseDeltaXY(double deltaX, double deltaY);
 
+	static void setSelectedModelColor(QColor selectedModelColor);
+	void updateModelColor();
+
 signals:
 	void positionXChanged(double positionX);
 	void positionYChanged(double positionY);
@@ -44,7 +47,6 @@ private:
 	void setPositionX(double positionX);
 	void setPositionY(double positionY);
 
-	void updateModelColor();
 	void setColor(QColor color);
 
 	vtkSmartPointer<vtkPolyData> m_modelData;
