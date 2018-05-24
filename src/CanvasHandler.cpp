@@ -203,3 +203,8 @@ void CanvasHandler::setModelsOpacity(double opacity)
 {
 	m_vtkFboItem->setModelsOpacity(opacity);
 }
+
+void CanvasHandler::setGouraudInterpolation(bool gouraudInterpolation)
+{
+	m_vtkFboItem->setGouraudInterpolation(gouraudInterpolation);
+}

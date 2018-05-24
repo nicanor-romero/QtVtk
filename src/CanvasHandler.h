@@ -34,6 +34,7 @@ public:
 
 	Q_INVOKABLE void setModelsRepresentation(int representationOption);
 	Q_INVOKABLE void setModelsOpacity(double opacity);
+	Q_INVOKABLE void setGouraudInterpolation(bool gouraudInterpolation);
 
 public slots:
 	void startApplication();

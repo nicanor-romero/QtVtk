@@ -83,6 +83,17 @@ ApplicationWindow {
             onValueChanged: canvasHandler.setModelsOpacity(value);
         }
 
+        Switch {
+            id: gouraudInterpolationSwitch
+            visible: canvasHandler.isModelSelected
+            text: "Gouraud interpolation"
+            anchors.left: parent.left
+            anchors.top: opacitySlider.bottom
+            anchors.margins: 50
+
+            onCheckedChanged: canvasHandler.setGouraudInterpolation(checked);
+        }
+
         Label {
             id: positionLabelX
             visible: canvasHandler.isModelSelected
