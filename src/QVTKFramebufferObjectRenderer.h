@@ -116,6 +116,7 @@ private:
 
 	int m_modelsRepresentationOption = 0;
 	double m_modelsOpacity = 1.0;
+	bool m_gouraudInterpolation = false;
 };
 
 #endif // QVTKFRAMEBUFFEROBJECTRENDERER_H

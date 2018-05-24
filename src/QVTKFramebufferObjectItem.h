@@ -56,10 +56,12 @@ public:
 	void resetCamera();
 
 	int getModelsRepresentation();
-	void setModelsRepresentation(int representationOption);
-
 	double getModelsOpacity();
+	bool getGourauInterpolation();
+
+	void setModelsRepresentation(int representationOption);
 	void setModelsOpacity(double opacity);
+	void setGouraudInterpolation(bool gouraudInterpolation);
 
 signals:
 	void rendererInitialized();
@@ -84,6 +86,7 @@ private:
 
 	int m_modelsRepresentationOption = 2;
 	double m_modelsOpacity = 1.0;
+	bool m_gouraudInterpolation = false;
 };
 
 #endif // QVTKFRAMEBUFFEROBJECTITEM_H

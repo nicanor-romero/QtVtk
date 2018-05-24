@@ -210,11 +210,25 @@ double QVTKFramebufferObjectItem::getModelsOpacity()
 	return m_modelsOpacity;
 }
 
+bool QVTKFramebufferObjectItem::getGourauInterpolation()
+{
+	return m_gouraudInterpolation;
+}
+
 void QVTKFramebufferObjectItem::setModelsOpacity(double opacity)
 {
 	if (m_modelsOpacity != opacity)
 	{
 		m_modelsOpacity = opacity;
+		update();
+	}
+}
+
+void QVTKFramebufferObjectItem::setGouraudInterpolation(bool gouraudInterpolation)
+{
+	if (m_gouraudInterpolation != gouraudInterpolation)
+	{
+		m_gouraudInterpolation = gouraudInterpolation;
 		update();
 	}
 }
