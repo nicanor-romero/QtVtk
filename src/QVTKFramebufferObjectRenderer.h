@@ -75,7 +75,7 @@ private:
 	std::shared_ptr<Model> getSelectedModelNoLock();
 
 	std::shared_ptr<ProcessingEngine> m_processingEngine;
-	QVTKFramebufferObjectItem *m_vtkFboItem;
+	QVTKFramebufferObjectItem *m_vtkFboItem = nullptr;
 	vtkSmartPointer<vtkExternalOpenGLRenderWindow> m_vtkRenderWindow;
 	vtkSmartPointer<vtkRenderer> m_renderer;
 	vtkSmartPointer<vtkGenericRenderWindowInteractor> m_vtkRenderWindowInteractor;
