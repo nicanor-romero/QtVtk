@@ -15,31 +15,31 @@ The code was tested using Qt 5.9.4 and VTK 8.1.1 in both Linux and Windows.
 ##### How to build in Linux
 
 1. Clone the repository
-```sh
-git clone https://github.com/nicanor-romero/QtVtk.git
-```
+    ```sh
+    git clone https://github.com/nicanor-romero/QtVtk.git
+    ```
 
 2. Set the environmental variables
-```sh
-$ export QTDIR=/path/to/Qt/5.9.4/gcc_64
-$ export VTK_DIR=/path/to/VTK-8.1.1/build_dir
-```
+    ```sh
+    $ export QTDIR=/path/to/Qt/5.9.4/gcc_64
+    $ export VTK_DIR=/path/to/VTK-8.1.1/build_dir
+    ```
 
 3. Run CMake
-```sh
-$ cd /path/to/QtVtk
-$ mkdir build && cd build
-$ cmake -DCMAKE_BUILD_TYPE=Release ..
-```
+    ```sh
+    $ cd /path/to/QtVtk
+    $ mkdir build && cd build
+    $ cmake -DCMAKE_BUILD_TYPE=Release ..
+    ```
 
 4. Compile the code
-```sh
-$ make
-```
+    ```sh
+    $ make
+    ```
 
 5. Run the application
-```sh
-$ cd build/
-$ ./QtVtk
-```
+    ```sh
+    $ cd build/
+    $ ./QtVtk
+    ```
 
