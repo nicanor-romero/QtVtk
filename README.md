@@ -7,9 +7,9 @@ This 3D canvas is rendered using VTK but is immersed into a QML window, where yo
 
 The code was tested using Qt 5.9.4 and VTK 8.1.1 in both Linux and Windows.
 
-![alt text](https://media.giphy.com/media/NsIBsDdRJ2rw7OL2kf/giphy.gif "Import and view STL files")
+![Import and view STL files](resources/QtVtk_1.gif)
 
-![alt text](https://media.giphy.com/media/5e1NH8IHLmuV3EiI9T/giphy.gif "Overlay QtQuickControls2 components")
+![Overlay QtQuickControls2 components](resources/QtVtk_2.gif)
 
 
 ##### How to build in Linux
