@@ -9,7 +9,6 @@
 
 #include <QUrl>
 
-#include <vtkBooleanOperationPolyDataFilter.h>
 #include <vtkSmartPointer.h>
 
 
