@@ -9,10 +9,10 @@
 
 #include <QUrl>
 
+#include <vtkPolyData.h>
 #include <vtkSmartPointer.h>
 
 
-class vtkPolyData;
 class Model;
 
 class ProcessingEngine
@@ -20,14 +20,14 @@ class ProcessingEngine
 	public:
 		ProcessingEngine();
 
-		std::shared_ptr<Model> addModel(QUrl modelFilePath);
+		const std::shared_ptr<Model>& addModel(const QUrl &modelFilePath);
 
-		void placeModel(std::shared_ptr<Model> model);
+		void placeModel(Model &model) const;
 
-		std::vector<std::shared_ptr<Model>> getModels();
+		std::vector<std::shared_ptr<Model>> getModels() const;
 
 	private:
-		vtkSmartPointer<vtkPolyData> preprocessPolydata(vtkSmartPointer<vtkPolyData> inputData);
+		vtkSmartPointer<vtkPolyData> preprocessPolydata(const vtkSmartPointer<vtkPolyData> inputData) const;
 
 		std::vector<std::shared_ptr<Model>> m_models;
 };

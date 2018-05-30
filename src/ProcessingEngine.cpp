@@ -8,7 +8,6 @@
 
 #include <vtkAlgorithmOutput.h>
 #include <vtkOBJReader.h>
-#include <vtkPolyData.h>
 #include <vtkPolyDataNormals.h>
 #include <vtkSTLReader.h>
 #include <vtkTransform.h>
@@ -22,7 +21,7 @@ ProcessingEngine::ProcessingEngine()
 }
 
 
-std::shared_ptr<Model> ProcessingEngine::addModel(QUrl modelFilePath)
+const std::shared_ptr<Model> &ProcessingEngine::addModel(const QUrl &modelFilePath)
 {
 	qDebug() << "ProcessingEngine::addModelData()";
 
@@ -52,13 +51,13 @@ std::shared_ptr<Model> ProcessingEngine::addModel(QUrl modelFilePath)
 
 	// Create Model instance and insert it into the vector
 	std::shared_ptr<Model> model = std::make_shared<Model>(preprocessedPolydata);
+
 	m_models.push_back(model);
 
-	return m_models[m_models.size() - 1];
+	return m_models.back();
 }
 
-
-vtkSmartPointer<vtkPolyData> ProcessingEngine::preprocessPolydata(vtkSmartPointer<vtkPolyData> inputData)
+vtkSmartPointer<vtkPolyData> ProcessingEngine::preprocessPolydata(const vtkSmartPointer<vtkPolyData> inputData) const
 {
 	// Center the polygon
 	double center[3];
@@ -81,14 +80,14 @@ vtkSmartPointer<vtkPolyData> ProcessingEngine::preprocessPolydata(vtkSmartPointe
 	return normals->GetOutput();
 }
 
-void ProcessingEngine::placeModel(std::shared_ptr<Model> model)
+void ProcessingEngine::placeModel(Model &model) const
 {
 	qDebug() << "ProcessingEngine::placeModel()";
 
-	model->translateToPosition(0, 0);
+	model.translateToPosition(0, 0);
 }
 
-std::vector<std::shared_ptr<Model> > ProcessingEngine::getModels()
+std::vector<std::shared_ptr<Model>> ProcessingEngine::getModels() const
 {
 	return m_models;
 }
