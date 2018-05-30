@@ -1,9 +1,7 @@
 #include <QDebug>
 
-#include <vtkActor.h>
 #include <vtkAlgorithmOutput.h>
 #include <vtkPolyData.h>
-#include <vtkPolyDataMapper.h>
 #include <vtkProperty.h>
 #include <vtkTransform.h>
 

@@ -67,5 +67,4 @@ private:
 	double m_mouseDeltaY = 0.0;
 };
 
-
 #endif // MODEL_H
