@@ -22,25 +22,25 @@ class CanvasHandler : public QObject
 public:
 	CanvasHandler(int argc, char **argv);
 
-	Q_INVOKABLE void openModel(QUrl path);
+	Q_INVOKABLE void openModel(const QUrl &path) const;
 
-	Q_INVOKABLE void mousePressEvent(int button, int mouseX, int mouseY);
-	Q_INVOKABLE void mouseMoveEvent(int button, int mouseX, int mouseY);
-	Q_INVOKABLE void mouseReleaseEvent(int button, int mouseX, int mouseY);
+	Q_INVOKABLE void mousePressEvent(const int button, const int mouseX, const int mouseY) const;
+	Q_INVOKABLE void mouseMoveEvent(const int button, const int mouseX, const int mouseY);
+	Q_INVOKABLE void mouseReleaseEvent(const int button, const int mouseX, const int mouseY);
 
-	bool getIsModelSelected();
-	double getSelectedModelPositionX();
-	double getSelectedModelPositionY();
+	bool getIsModelSelected() const;
+	double getSelectedModelPositionX() const;
+	double getSelectedModelPositionY() const;
 
-	Q_INVOKABLE void setModelsRepresentation(int representationOption);
-	Q_INVOKABLE void setModelsOpacity(double opacity);
-	Q_INVOKABLE void setGouraudInterpolation(bool gouraudInterpolation);
-	Q_INVOKABLE void setModelColorR(int colorR);
-	Q_INVOKABLE void setModelColorG(int colorG);
-	Q_INVOKABLE void setModelColorB(int colorB);
+	Q_INVOKABLE void setModelsRepresentation(const int representationOption);
+	Q_INVOKABLE void setModelsOpacity(const double opacity);
+	Q_INVOKABLE void setGouraudInterpolation(const bool gouraudInterpolation);
+	Q_INVOKABLE void setModelColorR(const int colorR);
+	Q_INVOKABLE void setModelColorG(const int colorG);
+	Q_INVOKABLE void setModelColorB(const int colorB);
 
 public slots:
-	void startApplication();
+	void startApplication() const;
 
 signals:
 	void showFileDialogChanged();
@@ -50,8 +50,7 @@ signals:
 	void selectedModelPositionYChanged();
 
 private:
-	void closeApplication();
-	bool isModelExtensionValid(QUrl modelPath);
+	bool isModelExtensionValid(const QUrl &modelPath) const;
 
 	std::shared_ptr<ProcessingEngine> m_processingEngine;
 	QVTKFramebufferObjectItem *m_vtkFboItem = nullptr;
