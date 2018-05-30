@@ -9,6 +9,7 @@
 
 #include <QUrl>
 
+#include <vtkActor.h>
 #include <vtkPolyData.h>
 #include <vtkSmartPointer.h>
 
@@ -24,7 +25,12 @@ class ProcessingEngine
 
 		void placeModel(Model &model) const;
 
-		std::vector<std::shared_ptr<Model>> getModels() const;
+		void setModelsRepresentation(const int modelsRepresentationOption) const;
+		void setModelsOpacity(const double modelsOpacity) const;
+		void setModelsGouraudInterpolation(const bool enableGouraudInterpolation) const;
+		void updateModelsColor() const;
+
+		std::shared_ptr<Model> getModelFromActor(const vtkSmartPointer<vtkActor> modelActor) const;
 
 	private:
 		vtkSmartPointer<vtkPolyData> preprocessPolydata(const vtkSmartPointer<vtkPolyData> inputData) const;

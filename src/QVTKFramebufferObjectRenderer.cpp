@@ -114,7 +114,7 @@ void QVTKFramebufferObjectRenderer::synchronize(QQuickFramebufferObject *item)
 	// Get extra data
 	m_modelsRepresentationOption = m_vtkFboItem->getModelsRepresentation();
 	m_modelsOpacity = m_vtkFboItem->getModelsOpacity();
-	m_gouraudInterpolation = m_vtkFboItem->getGourauInterpolation();
+	m_modelsGouraudInterpolation = m_vtkFboItem->getGourauInterpolation();
 	Model::setSelectedModelColor(QColor(m_vtkFboItem->getModelColorR(), m_vtkFboItem->getModelColorG(), m_vtkFboItem->getModelColorB()));
 }
 
@@ -217,23 +217,10 @@ void QVTKFramebufferObjectRenderer::render()
 	m_renderer->GetActiveCamera()->SetViewUp(0.0, 0.0, 1.0);
 
 	// Extra actions
-	std::vector<std::shared_ptr<Model>> models = m_processingEngine->getModels();
-
-	for (uint16_t i=0; i < models.size(); i++)
-	{
-		models[i]->getModelActor()->GetProperty()->SetRepresentation(m_modelsRepresentationOption);
-		models[i]->getModelActor()->GetProperty()->SetOpacity(m_modelsOpacity);
-		models[i]->updateModelColor();
-
-		if (m_gouraudInterpolation)
-		{
-			models[i]->getModelActor()->GetProperty()->SetInterpolationToGouraud();
-		}
-		else
-		{
-			models[i]->getModelActor()->GetProperty()->SetInterpolationToFlat();
-		}
-	}
+	m_processingEngine->setModelsRepresentation(m_modelsRepresentationOption);
+	m_processingEngine->setModelsOpacity(m_modelsOpacity);
+	m_processingEngine->setModelsGouraudInterpolation(m_modelsGouraudInterpolation);
+	m_processingEngine->updateModelsColor();
 
 	// Render
 	m_vtkRenderWindow->Render();
@@ -517,16 +504,7 @@ std::shared_ptr<Model> QVTKFramebufferObjectRenderer::getSelectedModel()
 
 std::shared_ptr<Model> QVTKFramebufferObjectRenderer::getSelectedModelNoLock()
 {	
-	std::vector<std::shared_ptr<Model>> models = m_processingEngine->getModels();
-
-	for (uint16_t i=0; i < models.size(); i++)
-	{
-		if (models[i]->getModelActor() == m_selectedActor)
-		{
-			return models[i];
-		}
-	}
-	return nullptr;
+	return m_processingEngine->getModelFromActor(m_selectedActor);
 }
 
 bool QVTKFramebufferObjectRenderer::screenToWorld(int16_t screenX, int16_t screenY, double worldPos[])

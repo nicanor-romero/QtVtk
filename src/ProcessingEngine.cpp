@@ -9,6 +9,7 @@
 #include <vtkAlgorithmOutput.h>
 #include <vtkOBJReader.h>
 #include <vtkPolyDataNormals.h>
+#include <vtkProperty.h>
 #include <vtkSTLReader.h>
 #include <vtkTransform.h>
 #include <vtkTransformPolyDataFilter.h>
@@ -87,7 +88,55 @@ void ProcessingEngine::placeModel(Model &model) const
 	model.translateToPosition(0, 0);
 }
 
-std::vector<std::shared_ptr<Model>> ProcessingEngine::getModels() const
+void ProcessingEngine::setModelsRepresentation(const int modelsRepresentationOption) const
 {
-	return m_models;
+	for (const std::shared_ptr<Model>& model : m_models)
+	{
+		model->getModelActor()->GetProperty()->SetRepresentation(modelsRepresentationOption);
+	}
+}
+
+void ProcessingEngine::setModelsOpacity(const double modelsOpacity) const
+{
+	for (const std::shared_ptr<Model>& model : m_models)
+	{
+		model->getModelActor()->GetProperty()->SetOpacity(modelsOpacity);
+	}
+}
+
+void ProcessingEngine::setModelsGouraudInterpolation(const bool enableGouraudInterpolation) const
+{
+	for (const std::shared_ptr<Model>& model : m_models)
+	{
+		if (enableGouraudInterpolation)
+		{
+			model->getModelActor()->GetProperty()->SetInterpolationToGouraud();
+		}
+		else
+		{
+			model->getModelActor()->GetProperty()->SetInterpolationToFlat();
+		}
+	}
+}
+
+void ProcessingEngine::updateModelsColor() const
+{
+	for (const std::shared_ptr<Model>& model : m_models)
+	{
+		model->updateModelColor();
+	}
+}
+
+std::shared_ptr<Model> ProcessingEngine::getModelFromActor(const vtkSmartPointer<vtkActor> modelActor) const
+{
+	for (const std::shared_ptr<Model> &model : m_models)
+	{
+		if (model->getModelActor() == modelActor)
+		{
+			return model;
+		}
+	}
+
+	// Raise exception instead
+	return nullptr;
 }
