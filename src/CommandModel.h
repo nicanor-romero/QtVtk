@@ -10,7 +10,7 @@ public:
 	CommandModel(){}
 	virtual ~CommandModel(){}
 
-	virtual bool isReady() = 0;
+	virtual bool isReady() const = 0;
 	virtual void execute() = 0;
 
 protected:

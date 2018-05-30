@@ -25,7 +25,7 @@ void CommandModelAdd::run()
 }
 
 
-bool CommandModelAdd::isReady()
+bool CommandModelAdd::isReady() const
 {
 	return m_ready;
 }
