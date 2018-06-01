@@ -89,9 +89,9 @@ private:
 	double m_selectedModelPositionX = 0.0;
 	double m_selectedModelPositionY = 0.0;
 
-	QMouseEvent *m_mouseLeftButton;
-	QMouseEvent *m_mouseEvent;
-	QMouseEvent *m_moveEvent;
+	std::shared_ptr<QMouseEvent> m_mouseLeftButton = nullptr;
+	std::shared_ptr<QMouseEvent> m_mouseEvent = nullptr;
+	std::shared_ptr<QMouseEvent> m_moveEvent = nullptr;
 	QWheelEvent *m_wheelEvent;
 
 	vtkSmartPointer<vtkCubeSource> m_platformModel;

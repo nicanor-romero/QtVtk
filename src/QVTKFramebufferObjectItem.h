@@ -85,9 +85,9 @@ private:
 	QVTKFramebufferObjectRenderer *m_vtkFboRenderer = nullptr;
 	std::shared_ptr<ProcessingEngine> m_processingEngine;
 
-	QMouseEvent *m_lastMouseLeftButton;
-	QMouseEvent *m_lastMouseButton;
-	QMouseEvent *m_lastMouseMove;
+	std::shared_ptr<QMouseEvent> m_lastMouseLeftButton;
+	std::shared_ptr<QMouseEvent> m_lastMouseButton;
+	std::shared_ptr<QMouseEvent> m_lastMouseMove;
 	QWheelEvent *m_lastMouseWheel;
 
 	int m_modelsRepresentationOption = 2;

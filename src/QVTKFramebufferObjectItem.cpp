@@ -8,9 +8,9 @@
 
 QVTKFramebufferObjectItem::QVTKFramebufferObjectItem()
 {
-	m_lastMouseLeftButton = new QMouseEvent(QEvent::None, QPointF(0,0), Qt::NoButton, Qt::NoButton, Qt::NoModifier);
-	m_lastMouseButton = new QMouseEvent(QEvent::None, QPointF(0,0), Qt::NoButton, Qt::NoButton, Qt::NoModifier);
-	m_lastMouseMove = new QMouseEvent(QEvent::None, QPointF(0,0), Qt::NoButton, Qt::NoButton, Qt::NoModifier);
+	m_lastMouseLeftButton = std::make_shared<QMouseEvent>(QEvent::None, QPointF(0,0), Qt::NoButton, Qt::NoButton, Qt::NoModifier);
+	m_lastMouseButton = std::make_shared<QMouseEvent>(QEvent::None, QPointF(0,0), Qt::NoButton, Qt::NoButton, Qt::NoModifier);
+	m_lastMouseMove = std::make_shared<QMouseEvent>(QEvent::None, QPointF(0,0), Qt::NoButton, Qt::NoButton, Qt::NoModifier);
 	m_lastMouseWheel = new QWheelEvent(QPointF(0,0), 0, Qt::NoButton, Qt::NoModifier, Qt::Vertical);
 
 	this->setMirrorVertically(true); // QtQuick and OpenGL have opposite Y-Axis directions
@@ -68,7 +68,7 @@ double QVTKFramebufferObjectItem::getSelectedModelPositionY()
 
 void QVTKFramebufferObjectItem::selectModel(int screenX, int screenY)
 {
-	*m_lastMouseLeftButton = QMouseEvent(QEvent::None, QPointF(screenX, screenY), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+	m_lastMouseLeftButton = std::shared_ptr<QMouseEvent>(new QMouseEvent(QEvent::None, QPointF(screenX, screenY), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
 	m_lastMouseLeftButton->ignore();
 
 	update();
@@ -76,7 +76,7 @@ void QVTKFramebufferObjectItem::selectModel(int screenX, int screenY)
 
 void QVTKFramebufferObjectItem::resetModelSelection()
 {
-	*m_lastMouseLeftButton = QMouseEvent(QEvent::None, QPointF(-1, -1), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+	m_lastMouseLeftButton = std::shared_ptr<QMouseEvent>(new QMouseEvent(QEvent::None, QPointF(-1, -1), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
 	m_lastMouseLeftButton->ignore();
 
 	update();
@@ -137,7 +137,7 @@ void QVTKFramebufferObjectItem::mousePressEvent(QMouseEvent *e)
 {
 	if (e->buttons() & Qt::RightButton)
 	{
-		*m_lastMouseButton = *e;
+		m_lastMouseButton = std::make_shared<QMouseEvent>(*e);
 		m_lastMouseButton->ignore();
 		e->accept();
 		update();
@@ -146,7 +146,7 @@ void QVTKFramebufferObjectItem::mousePressEvent(QMouseEvent *e)
 
 void QVTKFramebufferObjectItem::mouseReleaseEvent(QMouseEvent *e)
 {
-	*m_lastMouseButton = *e;
+	m_lastMouseButton = std::make_shared<QMouseEvent>(*e);
 	m_lastMouseButton->ignore();
 	e->accept();
 	update();
@@ -166,17 +166,17 @@ void QVTKFramebufferObjectItem::mouseMoveEvent(QMouseEvent *e)
 
 QMouseEvent *QVTKFramebufferObjectItem::getLastMouseLeftButton()
 {
-	return m_lastMouseLeftButton;
+	return m_lastMouseLeftButton.get();
 }
 
 QMouseEvent *QVTKFramebufferObjectItem::getLastMouseButton()
 {
-	return m_lastMouseButton;
+	return m_lastMouseButton.get();
 }
 
 QMouseEvent *QVTKFramebufferObjectItem::getLastMoveEvent()
 {
-	return m_lastMouseMove;
+	return m_lastMouseMove.get();
 }
 
 QWheelEvent *QVTKFramebufferObjectItem::getLastWheelEvent()

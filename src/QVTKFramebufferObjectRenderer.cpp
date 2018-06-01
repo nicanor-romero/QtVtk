@@ -49,9 +49,6 @@ QVTKFramebufferObjectRenderer::QVTKFramebufferObjectRenderer()
 	m_picker->SetTolerance(0.0);
 
 	// Mouse events
-	m_mouseLeftButton = new QMouseEvent(QEvent::None, QPointF(0,0), Qt::NoButton, Qt::NoButton, Qt::NoModifier);
-	m_mouseEvent = new QMouseEvent(QEvent::None, QPointF(0,0), Qt::NoButton, Qt::NoButton, Qt::NoModifier);
-	m_moveEvent = new QMouseEvent(QEvent::None, QPointF(0,0), Qt::NoButton, Qt::NoButton, Qt::NoModifier);
 	m_wheelEvent = new QWheelEvent(QPointF(0,0), 0, Qt::NoButton, Qt::NoModifier, Qt::Vertical);
 
 	update();
@@ -89,19 +86,19 @@ void QVTKFramebufferObjectRenderer::synchronize(QQuickFramebufferObject *item)
 	// Copy mouse events
 	if (!m_vtkFboItem->getLastMouseLeftButton()->isAccepted())
 	{
-		*m_mouseLeftButton = *m_vtkFboItem->getLastMouseLeftButton();
+		m_mouseLeftButton = std::make_shared<QMouseEvent>(*m_vtkFboItem->getLastMouseLeftButton());
 		m_vtkFboItem->getLastMouseLeftButton()->accept();
 	}
 
 	if (!m_vtkFboItem->getLastMouseButton()->isAccepted())
 	{
-		*m_mouseEvent = *m_vtkFboItem->getLastMouseButton();
+		m_mouseEvent = std::make_shared<QMouseEvent>(*m_vtkFboItem->getLastMouseButton());
 		m_vtkFboItem->getLastMouseButton()->accept();
 	}
 
 	if (!m_vtkFboItem->getLastMoveEvent()->isAccepted())
 	{
-		*m_moveEvent = *m_vtkFboItem->getLastMoveEvent();
+		m_moveEvent = std::make_shared<QMouseEvent>(*m_vtkFboItem->getLastMoveEvent());
 		m_vtkFboItem->getLastMoveEvent()->accept();
 	}
 
@@ -133,7 +130,7 @@ void QVTKFramebufferObjectRenderer::render()
 	// Process camera related commands
 
 	// Process mouse event
-	if (!m_mouseEvent->isAccepted())
+	if (m_mouseEvent && !m_mouseEvent->isAccepted())
 	{
 		m_vtkRenderWindowInteractor->SetEventInformationFlipY(m_mouseEvent->x(), m_mouseEvent->y(),
 															 (m_mouseEvent->modifiers() & Qt::ControlModifier) > 0 ? 1 : 0,
@@ -142,18 +139,18 @@ void QVTKFramebufferObjectRenderer::render()
 
 		if (m_mouseEvent->type() == QEvent::MouseButtonPress)
 		{
-			m_vtkRenderWindowInteractor->InvokeEvent(vtkCommand::LeftButtonPressEvent, m_mouseEvent);
+			m_vtkRenderWindowInteractor->InvokeEvent(vtkCommand::LeftButtonPressEvent, m_mouseEvent.get());
 		}
 		else if (m_mouseEvent->type() == QEvent::MouseButtonRelease)
 		{
-			m_vtkRenderWindowInteractor->InvokeEvent(vtkCommand::LeftButtonReleaseEvent, m_mouseEvent);
+			m_vtkRenderWindowInteractor->InvokeEvent(vtkCommand::LeftButtonReleaseEvent, m_mouseEvent.get());
 		}
 
 		m_mouseEvent->accept();
 	}
 
 	// Process move event
-	if (!m_moveEvent->isAccepted())
+	if (m_moveEvent && !m_moveEvent->isAccepted())
 	{
 		if (m_moveEvent->type() == QEvent::MouseMove && m_moveEvent->buttons() & Qt::RightButton)
 		{
@@ -162,7 +159,7 @@ void QVTKFramebufferObjectRenderer::render()
 																 (m_moveEvent->modifiers() & Qt::ShiftModifier ) > 0 ? 1 : 0, 0,
 																  m_moveEvent->type() == QEvent::MouseButtonDblClick ? 1 : 0);
 
-			m_vtkRenderWindowInteractor->InvokeEvent(vtkCommand::MouseMoveEvent, m_moveEvent);
+			m_vtkRenderWindowInteractor->InvokeEvent(vtkCommand::MouseMoveEvent, m_moveEvent.get());
 		}
 
 		m_moveEvent->accept();
@@ -187,7 +184,7 @@ void QVTKFramebufferObjectRenderer::render()
 
 	// Select model
 
-	if (!m_mouseLeftButton->isAccepted())
+	if (m_mouseLeftButton && !m_mouseLeftButton->isAccepted())
 	{
 		this->selectModel(m_mouseLeftButton->x(), m_mouseLeftButton->y());
 		m_mouseLeftButton->accept();
