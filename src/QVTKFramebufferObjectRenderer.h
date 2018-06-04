@@ -43,7 +43,6 @@ public:
 
 	void addModelActor(const std::shared_ptr<Model> model);
 
-	std::mutex selectedModelMutex;
 	std::shared_ptr<Model> getSelectedModel() const;
 	bool isModelSelected() const;
 
