@@ -382,19 +382,6 @@ void QVTKFramebufferObjectRenderer::createLine(const double x1, const double y1,
 }
 
 
-void QVTKFramebufferObjectRenderer::resetCamera()
-{
-	// Seting the clipping range here messes with the opacity of the actors prior to moving the camera
-	m_camPositionX = -237.885;
-	m_camPositionY = -392.348;
-	m_camPositionZ = 369.477;
-	m_renderer->GetActiveCamera()->SetPosition(m_camPositionX, m_camPositionY, m_camPositionZ);
-	m_renderer->GetActiveCamera()->SetFocalPoint(0.0, 0.0, 0.0);
-	m_renderer->GetActiveCamera()->SetViewUp(0.0, 0.0, 1.0);
-	m_renderer->ResetCameraClippingRange();
-}
-
-
 void QVTKFramebufferObjectRenderer::addModelActor(const std::shared_ptr<Model> model)
 {
 	m_renderer->AddActor(model->getModelActor());
@@ -499,6 +486,36 @@ std::shared_ptr<Model> QVTKFramebufferObjectRenderer::getSelectedModelNoLock() c
 	return m_processingEngine->getModelFromActor(m_selectedActor);
 }
 
+
+void QVTKFramebufferObjectRenderer::setSelectedModelPositionX(const double positionX)
+{
+	if (m_selectedModelPositionX != positionX)
+	{
+		m_selectedModelPositionX = positionX;
+		emit selectedModelPositionXChanged();
+	}
+}
+
+void QVTKFramebufferObjectRenderer::setSelectedModelPositionY(const double positionY)
+{
+	if (m_selectedModelPositionY != positionY)
+	{
+		m_selectedModelPositionY = positionY;
+		emit selectedModelPositionYChanged();
+	}
+}
+
+double QVTKFramebufferObjectRenderer::getSelectedModelPositionX() const
+{
+	return m_selectedModelPositionX;
+}
+
+double QVTKFramebufferObjectRenderer::getSelectedModelPositionY() const
+{
+	return m_selectedModelPositionY;
+}
+
+
 const bool QVTKFramebufferObjectRenderer::screenToWorld(const int16_t screenX, const int16_t screenY, double worldPos[])
 {
 	//Create bounding planes for projection plane
@@ -548,31 +565,14 @@ const bool QVTKFramebufferObjectRenderer::screenToWorld(const int16_t screenX, c
 	return withinBounds;
 }
 
-
-void QVTKFramebufferObjectRenderer::setSelectedModelPositionX(const double positionX)
+void QVTKFramebufferObjectRenderer::resetCamera()
 {
-	if (m_selectedModelPositionX != positionX)
-	{
-		m_selectedModelPositionX = positionX;
-		emit selectedModelPositionXChanged();
-	}
-}
-
-void QVTKFramebufferObjectRenderer::setSelectedModelPositionY(const double positionY)
-{
-	if (m_selectedModelPositionY != positionY)
-	{
-		m_selectedModelPositionY = positionY;
-		emit selectedModelPositionYChanged();
-	}
-}
-
-double QVTKFramebufferObjectRenderer::getSelectedModelPositionX() const
-{
-	return m_selectedModelPositionX;
-}
-
-double QVTKFramebufferObjectRenderer::getSelectedModelPositionY() const
-{
-	return m_selectedModelPositionY;
+	// Seting the clipping range here messes with the opacity of the actors prior to moving the camera
+	m_camPositionX = -237.885;
+	m_camPositionY = -392.348;
+	m_camPositionZ = 369.477;
+	m_renderer->GetActiveCamera()->SetPosition(m_camPositionX, m_camPositionY, m_camPositionZ);
+	m_renderer->GetActiveCamera()->SetFocalPoint(0.0, 0.0, 0.0);
+	m_renderer->GetActiveCamera()->SetViewUp(0.0, 0.0, 1.0);
+	m_renderer->ResetCameraClippingRange();
 }

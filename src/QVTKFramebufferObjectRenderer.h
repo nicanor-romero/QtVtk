@@ -46,14 +46,14 @@ public:
 	std::shared_ptr<Model> getSelectedModel() const;
 	bool isModelSelected() const;
 
-	void resetCamera();
-	const bool screenToWorld(const int16_t screenX, const int16_t screenY, double worldPos[]);
-
 	void setSelectedModelPositionX(const double positionX);
 	void setSelectedModelPositionY(const double positionY);
 
 	double getSelectedModelPositionX() const;
 	double getSelectedModelPositionY() const;
+
+	void resetCamera();
+	const bool screenToWorld(const int16_t screenX, const int16_t screenY, double worldPos[]);
 
 signals:
 	void isModelSelectedChanged();
