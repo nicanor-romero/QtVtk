@@ -24,20 +24,20 @@ public:
 
 	Renderer *createRenderer() const Q_DECL_OVERRIDE;
 	void setVtkFboRenderer(QVTKFramebufferObjectRenderer*);
-	bool isInitialized();
-	void setProcessingEngine(std::shared_ptr<ProcessingEngine> processingEngine);
+	bool isInitialized() const;
+	void setProcessingEngine(const std::shared_ptr<ProcessingEngine> processingEngine);
 
 	// Model releated functions
-	bool isModelSelected();
+	bool isModelSelected() const;
 
-	double getSelectedModelPositionX();
-	double getSelectedModelPositionY();
+	double getSelectedModelPositionX() const;
+	double getSelectedModelPositionY() const;
 
-	void selectModel(int screenX, int screenY);
+	void selectModel(const int screenX, const int screenY);
 	void resetModelSelection();
-	void addModelFromFile(QUrl modelPath);
+	void addModelFromFile(const QUrl &modelPath);
 
-	void translateModel(CommandModelTranslate::TranslateParams_t &translateData, bool inTransition);
+	void translateModel(CommandModelTranslate::TranslateParams_t &translateData, const bool inTransition);
 
 	std::queue<CommandModel*> commandsQueue;
 	std::mutex commandsQueueMutex;
@@ -55,19 +55,19 @@ public:
 
 	void resetCamera();
 
-	int getModelsRepresentation();
-	double getModelsOpacity();
-	bool getGourauInterpolation();
-	int getModelColorR();
-	int getModelColorG();
-	int getModelColorB();
+	int getModelsRepresentation() const;
+	double getModelsOpacity() const;
+	bool getGourauInterpolation() const;
+	int getModelColorR() const;
+	int getModelColorG() const;
+	int getModelColorB() const;
 
-	void setModelsRepresentation(int representationOption);
-	void setModelsOpacity(double opacity);
-	void setGouraudInterpolation(bool gouraudInterpolation);
-	void setModelColorR(int colorR);
-	void setModelColorG(int colorG);
-	void setModelColorB(int colorB);
+	void setModelsRepresentation(const int representationOption);
+	void setModelsOpacity(const double opacity);
+	void setGouraudInterpolation(const bool gouraudInterpolation);
+	void setModelColorR(const int colorR);
+	void setModelColorG(const int colorG);
+	void setModelColorB(const int colorB);
 
 signals:
 	void rendererInitialized();

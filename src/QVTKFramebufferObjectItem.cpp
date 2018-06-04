@@ -37,12 +37,12 @@ void QVTKFramebufferObjectItem::setVtkFboRenderer(QVTKFramebufferObjectRenderer*
 	m_vtkFboRenderer->setProcessingEngine(m_processingEngine);
 }
 
-bool QVTKFramebufferObjectItem::isInitialized()
+bool QVTKFramebufferObjectItem::isInitialized() const
 {
 	return (m_vtkFboRenderer != nullptr);
 }
 
-void QVTKFramebufferObjectItem::setProcessingEngine(std::shared_ptr<ProcessingEngine> processingEngine)
+void QVTKFramebufferObjectItem::setProcessingEngine(const std::shared_ptr<ProcessingEngine> processingEngine)
 {
 	m_processingEngine = std::shared_ptr<ProcessingEngine>(processingEngine);
 }
@@ -50,23 +50,23 @@ void QVTKFramebufferObjectItem::setProcessingEngine(std::shared_ptr<ProcessingEn
 
 // Model releated functions
 
-bool QVTKFramebufferObjectItem::isModelSelected()
+bool QVTKFramebufferObjectItem::isModelSelected() const
 {
 	return m_vtkFboRenderer->isModelSelected();
 }
 
-double QVTKFramebufferObjectItem::getSelectedModelPositionX()
+double QVTKFramebufferObjectItem::getSelectedModelPositionX() const
 {
 	return m_vtkFboRenderer->getSelectedModelPositionX();
 }
 
-double QVTKFramebufferObjectItem::getSelectedModelPositionY()
+double QVTKFramebufferObjectItem::getSelectedModelPositionY() const
 {
 	return m_vtkFboRenderer->getSelectedModelPositionY();
 }
 
 
-void QVTKFramebufferObjectItem::selectModel(int screenX, int screenY)
+void QVTKFramebufferObjectItem::selectModel(const int screenX, const int screenY)
 {
 	m_lastMouseLeftButton = std::shared_ptr<QMouseEvent>(new QMouseEvent(QEvent::None, QPointF(screenX, screenY), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
 	m_lastMouseLeftButton->ignore();
@@ -82,7 +82,7 @@ void QVTKFramebufferObjectItem::resetModelSelection()
 	update();
 }
 
-void QVTKFramebufferObjectItem::addModelFromFile(QUrl modelPath)
+void QVTKFramebufferObjectItem::addModelFromFile(const QUrl &modelPath)
 {
 	qDebug() << "QVTKFramebufferObjectItem::addModelFromFile";
 
@@ -96,7 +96,7 @@ void QVTKFramebufferObjectItem::addModelFromFile(QUrl modelPath)
 	this->addCommand(command);
 }
 
-void QVTKFramebufferObjectItem::translateModel(CommandModelTranslate::TranslateParams_t & translateData, bool inTransition)
+void QVTKFramebufferObjectItem::translateModel(CommandModelTranslate::TranslateParams_t & translateData, const bool inTransition)
 {
 	if (translateData.model == nullptr)
 	{
@@ -191,12 +191,37 @@ void QVTKFramebufferObjectItem::resetCamera()
 	update();
 }
 
-int QVTKFramebufferObjectItem::getModelsRepresentation()
+int QVTKFramebufferObjectItem::getModelsRepresentation() const
 {
 	return m_modelsRepresentationOption;
 }
 
-void QVTKFramebufferObjectItem::setModelsRepresentation(int representationOption)
+double QVTKFramebufferObjectItem::getModelsOpacity() const
+{
+	return m_modelsOpacity;
+}
+
+bool QVTKFramebufferObjectItem::getGourauInterpolation() const
+{
+	return m_gouraudInterpolation;
+}
+
+int QVTKFramebufferObjectItem::getModelColorR() const
+{
+	return m_modelColorR;
+}
+
+int QVTKFramebufferObjectItem::getModelColorG() const
+{
+	return m_modelColorG;
+}
+
+int QVTKFramebufferObjectItem::getModelColorB() const
+{
+	return m_modelColorB;
+}
+
+void QVTKFramebufferObjectItem::setModelsRepresentation(const int representationOption)
 {
 	if (m_modelsRepresentationOption != representationOption)
 	{
@@ -205,32 +230,7 @@ void QVTKFramebufferObjectItem::setModelsRepresentation(int representationOption
 	}
 }
 
-double QVTKFramebufferObjectItem::getModelsOpacity()
-{
-	return m_modelsOpacity;
-}
-
-bool QVTKFramebufferObjectItem::getGourauInterpolation()
-{
-	return m_gouraudInterpolation;
-}
-
-int QVTKFramebufferObjectItem::getModelColorR()
-{
-	return m_modelColorR;
-}
-
-int QVTKFramebufferObjectItem::getModelColorG()
-{
-	return m_modelColorG;
-}
-
-int QVTKFramebufferObjectItem::getModelColorB()
-{
-	return m_modelColorB;
-}
-
-void QVTKFramebufferObjectItem::setModelsOpacity(double opacity)
+void QVTKFramebufferObjectItem::setModelsOpacity(const double opacity)
 {
 	if (m_modelsOpacity != opacity)
 	{
@@ -239,7 +239,7 @@ void QVTKFramebufferObjectItem::setModelsOpacity(double opacity)
 	}
 }
 
-void QVTKFramebufferObjectItem::setGouraudInterpolation(bool gouraudInterpolation)
+void QVTKFramebufferObjectItem::setGouraudInterpolation(const bool gouraudInterpolation)
 {
 	if (m_gouraudInterpolation != gouraudInterpolation)
 	{
@@ -248,7 +248,7 @@ void QVTKFramebufferObjectItem::setGouraudInterpolation(bool gouraudInterpolatio
 	}
 }
 
-void QVTKFramebufferObjectItem::setModelColorR(int colorR)
+void QVTKFramebufferObjectItem::setModelColorR(const int colorR)
 {
 	if (m_modelColorR != colorR)
 	{
@@ -257,7 +257,7 @@ void QVTKFramebufferObjectItem::setModelColorR(int colorR)
 	}
 }
 
-void QVTKFramebufferObjectItem::setModelColorG(int colorG)
+void QVTKFramebufferObjectItem::setModelColorG(const int colorG)
 {
 	if (m_modelColorG != colorG)
 	{
@@ -266,7 +266,7 @@ void QVTKFramebufferObjectItem::setModelColorG(int colorG)
 	}
 }
 
-void QVTKFramebufferObjectItem::setModelColorB(int colorB)
+void QVTKFramebufferObjectItem::setModelColorB(const int colorB)
 {
 	if (m_modelColorB != colorB)
 	{
