@@ -92,7 +92,7 @@ private:
 	std::shared_ptr<QMouseEvent> m_mouseLeftButton = nullptr;
 	std::shared_ptr<QMouseEvent> m_mouseEvent = nullptr;
 	std::shared_ptr<QMouseEvent> m_moveEvent = nullptr;
-	QWheelEvent *m_wheelEvent;
+	std::shared_ptr<QWheelEvent> m_wheelEvent = nullptr;
 
 	vtkSmartPointer<vtkCubeSource> m_platformModel;
 	vtkSmartPointer<vtkPolyData> m_platformGrid;

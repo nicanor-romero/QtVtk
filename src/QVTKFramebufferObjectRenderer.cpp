@@ -48,9 +48,6 @@ QVTKFramebufferObjectRenderer::QVTKFramebufferObjectRenderer()
 	m_picker = vtkSmartPointer<vtkCellPicker>::New();
 	m_picker->SetTolerance(0.0);
 
-	// Mouse events
-	m_wheelEvent = new QWheelEvent(QPointF(0,0), 0, Qt::NoButton, Qt::NoModifier, Qt::Vertical);
-
 	update();
 }
 
@@ -104,7 +101,7 @@ void QVTKFramebufferObjectRenderer::synchronize(QQuickFramebufferObject *item)
 
 	if (!m_vtkFboItem->getLastWheelEvent()->isAccepted())
 	{
-		*m_wheelEvent = *m_vtkFboItem->getLastWheelEvent();
+		m_wheelEvent = std::make_shared<QWheelEvent>(*m_vtkFboItem->getLastWheelEvent());
 		m_vtkFboItem->getLastWheelEvent()->accept();
 	}
 
@@ -166,15 +163,15 @@ void QVTKFramebufferObjectRenderer::render()
 	}
 
 	// Process wheel event
-	if (!m_wheelEvent->isAccepted())
+	if (m_wheelEvent && !m_wheelEvent->isAccepted())
 	{
 		if (m_wheelEvent->delta() > 0)
 		{
-			m_vtkRenderWindowInteractor->InvokeEvent(vtkCommand::MouseWheelForwardEvent, m_wheelEvent);
+			m_vtkRenderWindowInteractor->InvokeEvent(vtkCommand::MouseWheelForwardEvent, m_wheelEvent.get());
 		}
 		else if (m_wheelEvent->delta() < 0)
 		{
-			m_vtkRenderWindowInteractor->InvokeEvent(vtkCommand::MouseWheelBackwardEvent, m_wheelEvent);
+			m_vtkRenderWindowInteractor->InvokeEvent(vtkCommand::MouseWheelBackwardEvent, m_wheelEvent.get());
 		}
 
 		m_wheelEvent->accept();

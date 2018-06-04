@@ -88,7 +88,7 @@ private:
 	std::shared_ptr<QMouseEvent> m_lastMouseLeftButton;
 	std::shared_ptr<QMouseEvent> m_lastMouseButton;
 	std::shared_ptr<QMouseEvent> m_lastMouseMove;
-	QWheelEvent *m_lastMouseWheel;
+	std::shared_ptr<QWheelEvent> m_lastMouseWheel;
 
 	int m_modelsRepresentationOption = 2;
 	double m_modelsOpacity = 1.0;
