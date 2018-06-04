@@ -115,9 +115,9 @@ void QVTKFramebufferObjectItem::translateModel(CommandModelTranslate::TranslateP
 
 void QVTKFramebufferObjectItem::addCommand(CommandModel *command)
 {
-	commandsQueueMutex.lock();
-	commandsQueue.push(command);
-	commandsQueueMutex.unlock();
+	m_commandsQueueMutex.lock();
+	m_commandsQueue.push(command);
+	m_commandsQueueMutex.unlock();
 
 	update();
 }
@@ -273,5 +273,30 @@ void QVTKFramebufferObjectItem::setModelColorB(const int colorB)
 		m_modelColorB = colorB;
 		update();
 	}
+}
+
+CommandModel *QVTKFramebufferObjectItem::getCommandsQueueFront() const
+{
+	return m_commandsQueue.front();
+}
+
+void QVTKFramebufferObjectItem::commandsQueuePop()
+{
+	m_commandsQueue.pop();
+}
+
+bool QVTKFramebufferObjectItem::isCommandsQueueEmpty() const
+{
+	return m_commandsQueue.empty();
+}
+
+void QVTKFramebufferObjectItem::lockCommandsQueueMutex()
+{
+	m_commandsQueueMutex.lock();
+}
+
+void QVTKFramebufferObjectItem::unlockCommandsQueueMutex()
+{
+	m_commandsQueueMutex.unlock();
 }
 

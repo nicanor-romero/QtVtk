@@ -190,19 +190,19 @@ void QVTKFramebufferObjectRenderer::render()
 	// Model transformations
 
 	CommandModel *command;
-	while (!m_vtkFboItem->commandsQueue.empty())
+	while (!m_vtkFboItem->isCommandsQueueEmpty())
 	{
-		m_vtkFboItem->commandsQueueMutex.lock();
+		m_vtkFboItem->lockCommandsQueueMutex();
 
-		command = m_vtkFboItem->commandsQueue.front();
+		command = m_vtkFboItem->getCommandsQueueFront();
 		if (!command->isReady())
 		{
-			m_vtkFboItem->commandsQueueMutex.unlock();
+			m_vtkFboItem->unlockCommandsQueueMutex();
 			break;
 		}
-		m_vtkFboItem->commandsQueue.pop();
+		m_vtkFboItem->commandsQueuePop();
 
-		m_vtkFboItem->commandsQueueMutex.unlock();
+		m_vtkFboItem->unlockCommandsQueueMutex();
 
 		command->execute();
 	}

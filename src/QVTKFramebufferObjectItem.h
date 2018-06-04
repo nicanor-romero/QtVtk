@@ -39,9 +39,6 @@ public:
 
 	void translateModel(CommandModelTranslate::TranslateParams_t &translateData, const bool inTransition);
 
-	std::queue<CommandModel*> commandsQueue;
-	std::mutex commandsQueueMutex;
-
 	// Camera related functions
 	void wheelEvent(QWheelEvent *e) override;
 	void mousePressEvent(QMouseEvent *e) override;
@@ -69,6 +66,12 @@ public:
 	void setModelColorG(const int colorG);
 	void setModelColorB(const int colorB);
 
+	CommandModel* getCommandsQueueFront() const;
+	void commandsQueuePop();
+	bool isCommandsQueueEmpty() const;
+	void lockCommandsQueueMutex();
+	void unlockCommandsQueueMutex();
+
 signals:
 	void rendererInitialized();
 
@@ -84,6 +87,9 @@ private:
 
 	QVTKFramebufferObjectRenderer *m_vtkFboRenderer = nullptr;
 	std::shared_ptr<ProcessingEngine> m_processingEngine;
+
+	std::queue<CommandModel*> m_commandsQueue;
+	std::mutex m_commandsQueueMutex;
 
 	std::shared_ptr<QMouseEvent> m_lastMouseLeftButton;
 	std::shared_ptr<QMouseEvent> m_lastMouseButton;
