@@ -68,7 +68,7 @@ double QVTKFramebufferObjectItem::getSelectedModelPositionY() const
 
 void QVTKFramebufferObjectItem::selectModel(const int screenX, const int screenY)
 {
-	m_lastMouseLeftButton = std::shared_ptr<QMouseEvent>(new QMouseEvent(QEvent::None, QPointF(screenX, screenY), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
+	m_lastMouseLeftButton = std::make_shared<QMouseEvent>(QEvent::None, QPointF(screenX, screenY), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
 	m_lastMouseLeftButton->ignore();
 
 	update();
@@ -76,7 +76,7 @@ void QVTKFramebufferObjectItem::selectModel(const int screenX, const int screenY
 
 void QVTKFramebufferObjectItem::resetModelSelection()
 {
-	m_lastMouseLeftButton = std::shared_ptr<QMouseEvent>(new QMouseEvent(QEvent::None, QPointF(-1, -1), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
+	m_lastMouseLeftButton = std::make_shared<QMouseEvent>(QEvent::None, QPointF(-1, -1), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
 	m_lastMouseLeftButton->ignore();
 
 	update();
