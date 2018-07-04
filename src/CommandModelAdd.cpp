@@ -18,14 +18,14 @@ void CommandModelAdd::run()
 
 	m_model = m_processingEngine->addModel(m_modelPath);
 
-	m_processingEngine->placeModel(m_model);
+	m_processingEngine->placeModel(*m_model);
 
 	m_ready = true;
 	emit ready();
 }
 
 
-bool CommandModelAdd::isReady()
+bool CommandModelAdd::isReady() const
 {
 	return m_ready;
 }

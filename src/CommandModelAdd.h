@@ -22,7 +22,7 @@ public:
 
 	void run() Q_DECL_OVERRIDE;
 
-	bool isReady() override;
+	bool isReady() const override;
 	void execute() override;
 
 signals:

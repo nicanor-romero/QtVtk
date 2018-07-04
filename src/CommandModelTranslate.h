@@ -25,7 +25,7 @@ public:
 
 	CommandModelTranslate(QVTKFramebufferObjectRenderer *vtkFboRenderer, const TranslateParams_t & translateVector, bool inTransition);
 
-	bool isReady() override;
+	bool isReady() const override;
 	void execute() override;
 
 private:

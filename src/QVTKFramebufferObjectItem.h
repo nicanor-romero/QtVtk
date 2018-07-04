@@ -24,23 +24,20 @@ public:
 
 	Renderer *createRenderer() const Q_DECL_OVERRIDE;
 	void setVtkFboRenderer(QVTKFramebufferObjectRenderer*);
-	bool isInitialized();
-	void setProcessingEngine(std::shared_ptr<ProcessingEngine> processingEngine);
+	bool isInitialized() const;
+	void setProcessingEngine(const std::shared_ptr<ProcessingEngine> processingEngine);
 
 	// Model releated functions
-	bool isModelSelected();
+	bool isModelSelected() const;
 
-	double getSelectedModelPositionX();
-	double getSelectedModelPositionY();
+	double getSelectedModelPositionX() const;
+	double getSelectedModelPositionY() const;
 
-	void selectModel(int screenX, int screenY);
+	void selectModel(const int screenX, const int screenY);
 	void resetModelSelection();
-	void addModelFromFile(QUrl modelPath);
+	void addModelFromFile(const QUrl &modelPath);
 
-	void translateModel(CommandModelTranslate::TranslateParams_t &translateData, bool inTransition);
-
-	std::queue<CommandModel*> commandsQueue;
-	std::mutex commandsQueueMutex;
+	void translateModel(CommandModelTranslate::TranslateParams_t &translateData, const bool inTransition);
 
 	// Camera related functions
 	void wheelEvent(QWheelEvent *e) override;
@@ -54,6 +51,26 @@ public:
 	QWheelEvent *getLastWheelEvent();
 
 	void resetCamera();
+
+	int getModelsRepresentation() const;
+	double getModelsOpacity() const;
+	bool getGourauInterpolation() const;
+	int getModelColorR() const;
+	int getModelColorG() const;
+	int getModelColorB() const;
+
+	void setModelsRepresentation(const int representationOption);
+	void setModelsOpacity(const double opacity);
+	void setGouraudInterpolation(const bool gouraudInterpolation);
+	void setModelColorR(const int colorR);
+	void setModelColorG(const int colorG);
+	void setModelColorB(const int colorB);
+
+	CommandModel* getCommandsQueueFront() const;
+	void commandsQueuePop();
+	bool isCommandsQueueEmpty() const;
+	void lockCommandsQueueMutex();
+	void unlockCommandsQueueMutex();
 
 signals:
 	void rendererInitialized();
@@ -71,10 +88,20 @@ private:
 	QVTKFramebufferObjectRenderer *m_vtkFboRenderer = nullptr;
 	std::shared_ptr<ProcessingEngine> m_processingEngine;
 
-	QMouseEvent *m_lastMouseLeftButton;
-	QMouseEvent *m_lastMouseButton;
-	QMouseEvent *m_lastMouseMove;
-	QWheelEvent *m_lastMouseWheel;
+	std::queue<CommandModel*> m_commandsQueue;
+	std::mutex m_commandsQueueMutex;
+
+	std::shared_ptr<QMouseEvent> m_lastMouseLeftButton;
+	std::shared_ptr<QMouseEvent> m_lastMouseButton;
+	std::shared_ptr<QMouseEvent> m_lastMouseMove;
+	std::shared_ptr<QWheelEvent> m_lastMouseWheel;
+
+	int m_modelsRepresentationOption = 2;
+	double m_modelsOpacity = 1.0;
+	bool m_gouraudInterpolation = false;
+	int m_modelColorR = 3;
+	int m_modelColorG = 169;
+	int m_modelColorB = 244;
 };
 
 #endif // QVTKFRAMEBUFFEROBJECTITEM_H

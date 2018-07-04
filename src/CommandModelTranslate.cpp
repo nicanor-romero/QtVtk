@@ -12,7 +12,7 @@ CommandModelTranslate::CommandModelTranslate(QVTKFramebufferObjectRenderer *vtkF
 	m_vtkFboRenderer = vtkFboRenderer;
 }
 
-bool CommandModelTranslate::isReady()
+bool CommandModelTranslate::isReady() const
 {
 	return true;
 }

@@ -34,27 +34,26 @@ class QVTKFramebufferObjectRenderer : public QObject, public QQuickFramebufferOb
 public:
 	QVTKFramebufferObjectRenderer();
 
+	void setProcessingEngine(const std::shared_ptr<ProcessingEngine> processingEngine);
+
 	virtual void synchronize(QQuickFramebufferObject *item);
 	virtual void render();
 	virtual void openGLInitState();
 	QOpenGLFramebufferObject *createFramebufferObject(const QSize &size);
 
-	void addModelActor(std::shared_ptr<Model> model);
+	void addModelActor(const std::shared_ptr<Model> model);
 
-	std::mutex selectedModelMutex;
-	std::shared_ptr<Model> getSelectedModel();
-	bool isModelSelected();
+	std::shared_ptr<Model> getSelectedModel() const;
+	bool isModelSelected() const;
+
+	void setSelectedModelPositionX(const double positionX);
+	void setSelectedModelPositionY(const double positionY);
+
+	double getSelectedModelPositionX() const;
+	double getSelectedModelPositionY() const;
 
 	void resetCamera();
-	bool screenToWorld(int16_t screenX, int16_t screenY, double worldPos[3]);
-
-	void setSelectedModelPositionX(double positionX);
-	void setSelectedModelPositionY(double positionY);
-
-	double getSelectedModelPositionX();
-	double getSelectedModelPositionY();
-
-	void setProcessingEngine(std::shared_ptr<ProcessingEngine> processingEngine);
+	const bool screenToWorld(const int16_t screenX, const int16_t screenY, double worldPos[]);
 
 signals:
 	void isModelSelectedChanged();
@@ -67,15 +66,15 @@ private:
 	void generatePlatform();
 	void updatePlatform();
 
-	void selectModel(int16_t x, int16_t y);
+	void selectModel(const int16_t x, const int16_t y);
 	void clearSelectedModel();
-	void setIsModelSelected(bool isModelSelected);
+	void setIsModelSelected(const bool isModelSelected);
 
-	void createLine(double x1, double y1, double z1, double x2, double y2, double z2, vtkSmartPointer<vtkPoints> points, vtkSmartPointer<vtkCellArray> cells);
-	std::shared_ptr<Model> getSelectedModelNoLock();
+	void createLine(const double x1, const double y1, const double z1, const double x2, const double y2, const double z2, vtkSmartPointer<vtkPoints> points, vtkSmartPointer<vtkCellArray> cells);
+	std::shared_ptr<Model> getSelectedModelNoLock() const;
 
 	std::shared_ptr<ProcessingEngine> m_processingEngine;
-	QVTKFramebufferObjectItem *m_vtkFboItem;
+	QVTKFramebufferObjectItem *m_vtkFboItem = nullptr;
 	vtkSmartPointer<vtkExternalOpenGLRenderWindow> m_vtkRenderWindow;
 	vtkSmartPointer<vtkRenderer> m_renderer;
 	vtkSmartPointer<vtkGenericRenderWindowInteractor> m_vtkRenderWindowInteractor;
@@ -89,10 +88,10 @@ private:
 	double m_selectedModelPositionX = 0.0;
 	double m_selectedModelPositionY = 0.0;
 
-	QMouseEvent *m_mouseLeftButton;
-	QMouseEvent *m_mouseEvent;
-	QMouseEvent *m_moveEvent;
-	QWheelEvent *m_wheelEvent;
+	std::shared_ptr<QMouseEvent> m_mouseLeftButton = nullptr;
+	std::shared_ptr<QMouseEvent> m_mouseEvent = nullptr;
+	std::shared_ptr<QMouseEvent> m_moveEvent = nullptr;
+	std::shared_ptr<QWheelEvent> m_wheelEvent = nullptr;
 
 	vtkSmartPointer<vtkCubeSource> m_platformModel;
 	vtkSmartPointer<vtkPolyData> m_platformGrid;
@@ -113,6 +112,10 @@ private:
 	double m_clickPositionZ = 0.0;
 
 	bool m_firstRender = true;
+
+	int m_modelsRepresentationOption = 0;
+	double m_modelsOpacity = 1.0;
+	bool m_modelsGouraudInterpolation = false;
 };
 
 #endif // QVTKFRAMEBUFFEROBJECTRENDERER_H

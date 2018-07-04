@@ -65,33 +65,34 @@ CanvasHandler::CanvasHandler(int argc, char **argv)
 }
 
 
-void CanvasHandler::startApplication()
+void CanvasHandler::startApplication() const
 {
 	qDebug() << "CanvasHandler::startApplication()";
 
 	disconnect(m_vtkFboItem, &QVTKFramebufferObjectItem::rendererInitialized, this, &CanvasHandler::startApplication);
 }
 
-void CanvasHandler::closeApplication()
-{
-	QApplication::instance()->quit();
-}
 
-
-void CanvasHandler::openModel(QUrl path)
+void CanvasHandler::openModel(const QUrl &path) const
 {
 	qDebug() << "CanvasHandler::openModel():" << path;
+
+	QUrl localFilePath;
 
 	if (path.isLocalFile())
 	{
 		// Remove the "file:///" if present
-		path = path.toLocalFile();
+		localFilePath = path.toLocalFile();
+	}
+	else
+	{
+		localFilePath = path;
 	}
 
-	m_vtkFboItem->addModelFromFile(path);
+	m_vtkFboItem->addModelFromFile(localFilePath);
 }
 
-bool CanvasHandler::isModelExtensionValid(QUrl modelPath)
+bool CanvasHandler::isModelExtensionValid(const QUrl &modelPath) const
 {
 	if (modelPath.toString().toLower().endsWith(".stl") || modelPath.toString().toLower().endsWith(".obj"))
 	{
@@ -102,14 +103,14 @@ bool CanvasHandler::isModelExtensionValid(QUrl modelPath)
 }
 
 
-void CanvasHandler::mousePressEvent(int button, int screenX, int screenY)
+void CanvasHandler::mousePressEvent(const int button, const int screenX, const int screenY) const
 {
 	qDebug() << "CanvasHandler::mousePressEvent()";
 
 	m_vtkFboItem->selectModel(screenX, screenY);
 }
 
-void CanvasHandler::mouseMoveEvent(int button, int screenX, int screenY)
+void CanvasHandler::mouseMoveEvent(const int button, const int screenX, const int screenY)
 {
 	if (!m_vtkFboItem->isModelSelected())
 	{
@@ -132,7 +133,7 @@ void CanvasHandler::mouseMoveEvent(int button, int screenX, int screenY)
 	m_vtkFboItem->translateModel(translateParams, true);
 }
 
-void CanvasHandler::mouseReleaseEvent(int button, int screenX, int screenY)
+void CanvasHandler::mouseReleaseEvent(const int button, const int screenX, const int screenY)
 {
 	qDebug() << "CanvasHandler::mouseReleaseEvent()";
 
@@ -157,22 +158,18 @@ void CanvasHandler::mouseReleaseEvent(int button, int screenX, int screenY)
 }
 
 
-bool CanvasHandler::getIsModelSelected()
+bool CanvasHandler::getIsModelSelected() const
 {
-	qDebug() << "CanvasHandler::getIsModelSelected()";
-
 	// QVTKFramebufferObjectItem might not be initialized when QML loads
 	if (!m_vtkFboItem)
 	{
 		return 0;
 	}
 
-	qDebug() << "CanvasHandler::getIsModelSelected():" << m_vtkFboItem->isModelSelected();
-
 	return m_vtkFboItem->isModelSelected();
 }
 
-double CanvasHandler::getSelectedModelPositionX()
+double CanvasHandler::getSelectedModelPositionX() const
 {
 	// QVTKFramebufferObjectItem might not be initialized when QML loads
 	if (!m_vtkFboItem)
@@ -183,7 +180,7 @@ double CanvasHandler::getSelectedModelPositionX()
 	return m_vtkFboItem->getSelectedModelPositionX();
 }
 
-double CanvasHandler::getSelectedModelPositionY()
+double CanvasHandler::getSelectedModelPositionY() const
 {
 	// QVTKFramebufferObjectItem might not be initialized when QML loads
 	if (!m_vtkFboItem)
@@ -192,4 +189,34 @@ double CanvasHandler::getSelectedModelPositionY()
 	}
 
 	return m_vtkFboItem->getSelectedModelPositionY();
+}
+
+void CanvasHandler::setModelsRepresentation(const int representationOption)
+{
+	m_vtkFboItem->setModelsRepresentation(representationOption);
+}
+
+void CanvasHandler::setModelsOpacity(const double opacity)
+{
+	m_vtkFboItem->setModelsOpacity(opacity);
+}
+
+void CanvasHandler::setGouraudInterpolation(const bool gouraudInterpolation)
+{
+	m_vtkFboItem->setGouraudInterpolation(gouraudInterpolation);
+}
+
+void CanvasHandler::setModelColorR(const int colorR)
+{
+	m_vtkFboItem->setModelColorR(colorR);
+}
+
+void CanvasHandler::setModelColorG(const int colorG)
+{
+	m_vtkFboItem->setModelColorG(colorG);
+}
+
+void CanvasHandler::setModelColorB(const int colorB)
+{
+	m_vtkFboItem->setModelColorB(colorB);
 }

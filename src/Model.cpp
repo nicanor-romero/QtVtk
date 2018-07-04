@@ -1,9 +1,7 @@
 #include <QDebug>
 
-#include <vtkActor.h>
 #include <vtkAlgorithmOutput.h>
 #include <vtkPolyData.h>
-#include <vtkPolyDataMapper.h>
 #include <vtkProperty.h>
 #include <vtkTransform.h>
 
@@ -11,7 +9,7 @@
 
 
 QColor Model::m_defaultModelColor = QColor{"#0277bd"};
-QColor Model::m_selectedModelColor = QColor{"#004c8c"};
+QColor Model::m_selectedModelColor = QColor{"#03a9f4"};
 
 
 Model::Model(vtkSmartPointer<vtkPolyData> modelData)
@@ -47,6 +45,12 @@ Model::Model(vtkSmartPointer<vtkPolyData> modelData)
 }
 
 
+const vtkSmartPointer<vtkActor> &Model::getModelActor() const
+{
+	return m_modelActor;
+}
+
+
 double Model::getPositionX()
 {
 	m_propertiesMutex.lock();
@@ -63,7 +67,7 @@ double Model::getPositionY()
 	return positionY;
 }
 
-void Model::setPositionX(double positionX)
+void Model::setPositionX(const double positionX)
 {
 	if (m_positionX != positionX)
 	{
@@ -72,7 +76,7 @@ void Model::setPositionX(double positionX)
 	}
 }
 
-void Model::setPositionY(double positionY)
+void Model::setPositionY(const double positionY)
 {
 	if (m_positionY != positionY)
 	{
@@ -82,7 +86,7 @@ void Model::setPositionY(double positionY)
 }
 
 
-void Model::translateToPosition(double x, double y)
+void Model::translateToPosition(const double x, const double y)
 {
 	if (m_positionX == x && m_positionY == y)
 	{
@@ -104,13 +108,7 @@ void Model::translateToPosition(double x, double y)
 }
 
 
-vtkSmartPointer<vtkActor> Model::getModelActor()
-{
-	return m_modelActor;
-}
-
-
-void Model::setSelected(bool selected)
+void Model::setSelected(const bool selected)
 {
 	if (m_selected != selected)
 	{
@@ -118,6 +116,11 @@ void Model::setSelected(bool selected)
 
 		this->updateModelColor();
 	}
+}
+
+void Model::setSelectedModelColor(const QColor &selectedModelColor)
+{
+	m_selectedModelColor = selectedModelColor;
 }
 
 void Model::updateModelColor()
@@ -132,23 +135,23 @@ void Model::updateModelColor()
 	}
 }
 
-void Model::setColor(QColor color)
+void Model::setColor(const QColor &color)
 {
 	m_modelActor->GetProperty()->SetColor(color.redF(), color.greenF(), color.blueF());
 }
 
 
-double Model::getMouseDeltaX()
+const double Model::getMouseDeltaX() const
 {
 	return m_mouseDeltaX;
 }
 
-double Model::getMouseDeltaY()
+const double Model::getMouseDeltaY() const
 {
 	return m_mouseDeltaY;
 }
 
-void Model::setMouseDeltaXY(double deltaX, double deltaY)
+void Model::setMouseDeltaXY(const double deltaX, const double deltaY)
 {
 	m_mouseDeltaX = deltaX;
 	m_mouseDeltaY = deltaY;

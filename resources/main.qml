@@ -13,7 +13,8 @@ ApplicationWindow {
     visible: true
     title: "QtVTK"
 
-    Material.accent: Material.Blue
+    Material.primary: Material.Indigo
+    Material.accent: Material.LightBlue
 
     Rectangle {
         id: screenCanvasUI
@@ -48,28 +49,111 @@ ApplicationWindow {
             anchors.bottom: parent.bottom
             anchors.margins: 50
             onClicked: canvasHandler.showFileDialog = true;
+
+            ToolTip.visible: hovered
+            ToolTip.delay: 1000
+            ToolTip.text: "Open a 3D model into the canvas"
+        }
+
+        ComboBox {
+            id: representationCombobox
+            visible: canvasHandler.isModelSelected
+            width: 200
+            model: ["Points", "Wireframe", "Surface"]
+            currentIndex: 2
+            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.leftMargin: 40
+            anchors.topMargin: 30
+
+            onActivated: canvasHandler.setModelsRepresentation(currentIndex);
+        }
+
+        Slider {
+            id: opacitySlider
+            visible: canvasHandler.isModelSelected
+            width: 200
+            value: 1
+            from: 0.1
+            to: 1
+            stepSize: 0.01
+            anchors.left: parent.left
+            anchors.top: representationCombobox.bottom
+            anchors.leftMargin: 40
+            anchors.topMargin: 30
+
+            onValueChanged: canvasHandler.setModelsOpacity(value);
+        }
+
+        Switch {
+            id: gouraudInterpolationSwitch
+            visible: canvasHandler.isModelSelected
+            text: "Gouraud interpolation"
+            anchors.left: parent.left
+            anchors.top: opacitySlider.bottom
+            anchors.leftMargin: 40
+            anchors.topMargin: 30
+
+            onCheckedChanged: canvasHandler.setGouraudInterpolation(checked);
+        }
+
+        SpinBox {
+            id: modelColorR
+            visible: canvasHandler.isModelSelected
+            value: 3
+            from: 0
+            to: 255
+            onValueChanged: canvasHandler.setModelColorR(value);
+            anchors.left: parent.left
+            anchors.top: gouraudInterpolationSwitch.bottom
+            anchors.leftMargin: 40
+            anchors.topMargin: 30
+        }
+
+        SpinBox {
+            id: modelColorG
+            visible: canvasHandler.isModelSelected
+            value: 169
+            from: 0
+            to: 255
+            onValueChanged: canvasHandler.setModelColorG(value);
+            anchors.left: parent.left
+            anchors.top: modelColorR.bottom
+            anchors.leftMargin: 40
+            anchors.topMargin: 25
+        }
+
+        SpinBox {
+            id: modelColorB
+            visible: canvasHandler.isModelSelected
+            value: 244
+            from: 0
+            to: 255
+            onValueChanged: canvasHandler.setModelColorB(value);
+            anchors.left: parent.left
+            anchors.top: modelColorG.bottom
+            anchors.leftMargin: 40
+            anchors.topMargin: 25
         }
 
         Label {
             id: positionLabelX
             visible: canvasHandler.isModelSelected
             text: "X: " + canvasHandler.modelPositionX
-            color: "white"
-            font.pixelSize: 20
-            anchors.top: parent.top
+            font.pixelSize: 12
+            anchors.bottom: positionLabelY.top
             anchors.left: parent.left
-            anchors.margins: 50
+            anchors.margins: 40
         }
 
         Label {
             id: positionLabelY
             visible: canvasHandler.isModelSelected
             text: "Y: " + canvasHandler.modelPositionY
-            color: "white"
-            font.pixelSize: 20
-            anchors.top: positionLabelX.bottom
+            font.pixelSize: 12
+            anchors.bottom: parent.bottom
             anchors.left: parent.left
-            anchors.margins: 50
+            anchors.margins: 40
         }
     }
 

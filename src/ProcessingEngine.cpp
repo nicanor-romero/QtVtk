@@ -8,8 +8,8 @@
 
 #include <vtkAlgorithmOutput.h>
 #include <vtkOBJReader.h>
-#include <vtkPolyData.h>
 #include <vtkPolyDataNormals.h>
+#include <vtkProperty.h>
 #include <vtkSTLReader.h>
 #include <vtkTransform.h>
 #include <vtkTransformPolyDataFilter.h>
@@ -22,7 +22,7 @@ ProcessingEngine::ProcessingEngine()
 }
 
 
-std::shared_ptr<Model> ProcessingEngine::addModel(QUrl modelFilePath)
+const std::shared_ptr<Model> &ProcessingEngine::addModel(const QUrl &modelFilePath)
 {
 	qDebug() << "ProcessingEngine::addModelData()";
 
@@ -52,13 +52,13 @@ std::shared_ptr<Model> ProcessingEngine::addModel(QUrl modelFilePath)
 
 	// Create Model instance and insert it into the vector
 	std::shared_ptr<Model> model = std::make_shared<Model>(preprocessedPolydata);
+
 	m_models.push_back(model);
 
-	return m_models[m_models.size() - 1];
+	return m_models.back();
 }
 
-
-vtkSmartPointer<vtkPolyData> ProcessingEngine::preprocessPolydata(vtkSmartPointer<vtkPolyData> inputData)
+vtkSmartPointer<vtkPolyData> ProcessingEngine::preprocessPolydata(const vtkSmartPointer<vtkPolyData> inputData) const
 {
 	// Center the polygon
 	double center[3];
@@ -81,14 +81,62 @@ vtkSmartPointer<vtkPolyData> ProcessingEngine::preprocessPolydata(vtkSmartPointe
 	return normals->GetOutput();
 }
 
-void ProcessingEngine::placeModel(std::shared_ptr<Model> model)
+void ProcessingEngine::placeModel(Model &model) const
 {
 	qDebug() << "ProcessingEngine::placeModel()";
 
-	model->translateToPosition(0, 0);
+	model.translateToPosition(0, 0);
 }
 
-std::vector<std::shared_ptr<Model> > ProcessingEngine::getModels()
+void ProcessingEngine::setModelsRepresentation(const int modelsRepresentationOption) const
 {
-	return m_models;
+	for (const std::shared_ptr<Model>& model : m_models)
+	{
+		model->getModelActor()->GetProperty()->SetRepresentation(modelsRepresentationOption);
+	}
+}
+
+void ProcessingEngine::setModelsOpacity(const double modelsOpacity) const
+{
+	for (const std::shared_ptr<Model>& model : m_models)
+	{
+		model->getModelActor()->GetProperty()->SetOpacity(modelsOpacity);
+	}
+}
+
+void ProcessingEngine::setModelsGouraudInterpolation(const bool enableGouraudInterpolation) const
+{
+	for (const std::shared_ptr<Model>& model : m_models)
+	{
+		if (enableGouraudInterpolation)
+		{
+			model->getModelActor()->GetProperty()->SetInterpolationToGouraud();
+		}
+		else
+		{
+			model->getModelActor()->GetProperty()->SetInterpolationToFlat();
+		}
+	}
+}
+
+void ProcessingEngine::updateModelsColor() const
+{
+	for (const std::shared_ptr<Model>& model : m_models)
+	{
+		model->updateModelColor();
+	}
+}
+
+std::shared_ptr<Model> ProcessingEngine::getModelFromActor(const vtkSmartPointer<vtkActor> modelActor) const
+{
+	for (const std::shared_ptr<Model> &model : m_models)
+	{
+		if (model->getModelActor() == modelActor)
+		{
+			return model;
+		}
+	}
+
+	// Raise exception instead
+	return nullptr;
 }
