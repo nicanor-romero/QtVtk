@@ -32,7 +32,7 @@ const std::shared_ptr<Model> &ProcessingEngine::addModel(const QUrl &modelFilePa
     vtkSmartPointer<vtkSTLReader> stlReader = vtkSmartPointer<vtkSTLReader>::New();
     vtkSmartPointer<vtkPolyData> inputData;
 
-    if (modelFilePathExtension == ".obj")
+	if (modelFilePathExtension == "obj")
     {
         // Read OBJ file
 		objReader->SetFileName(modelFilePath.toString().toStdString().c_str());
