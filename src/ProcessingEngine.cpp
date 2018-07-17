@@ -33,19 +33,19 @@ const std::shared_ptr<Model> &ProcessingEngine::addModel(const QUrl &modelFilePa
     vtkSmartPointer<vtkPolyData> inputData;
 
 	if (modelFilePathExtension == "obj")
-    {
-        // Read OBJ file
+	{
+		// Read OBJ file
 		objReader->SetFileName(modelFilePath.toString().toStdString().c_str());
-        objReader->Update();
-        inputData = objReader->GetOutput();
-    }
-    else
-    {
-        // Read STL file
+		objReader->Update();
+		inputData = objReader->GetOutput();
+	}
+	else
+	{
+		// Read STL file
 		stlReader->SetFileName(modelFilePath.toString().toStdString().c_str());
-        stlReader->Update();
-        inputData = stlReader->GetOutput();
-    }
+		stlReader->Update();
+		inputData = stlReader->GetOutput();
+	}
 
 	// Preprocess the polydata
 	vtkSmartPointer<vtkPolyData> preprocessedPolydata = preprocessPolydata(inputData);
