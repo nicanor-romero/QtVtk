@@ -22,11 +22,11 @@
 #include "QVTKFramebufferObjectItem.h"
 #include "QVTKFramebufferObjectRenderer.h"
 
-
 QVTKFramebufferObjectRenderer::QVTKFramebufferObjectRenderer()
 {
 	// Renderer
-	m_vtkRenderWindow = vtkSmartPointer<vtkExternalOpenGLRenderWindow>::New();
+	QSurfaceFormat::setDefaultFormat(QVTKOpenGLNativeWidget::defaultFormat());
+	m_vtkRenderWindow = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
 	m_renderer = vtkSmartPointer<vtkRenderer>::New();
 	m_vtkRenderWindow->AddRenderer(m_renderer);
 
@@ -51,19 +51,17 @@ QVTKFramebufferObjectRenderer::QVTKFramebufferObjectRenderer()
 	update();
 }
 
-
 void QVTKFramebufferObjectRenderer::setProcessingEngine(const std::shared_ptr<ProcessingEngine> processingEngine)
 {
 	m_processingEngine = std::shared_ptr<ProcessingEngine>(processingEngine);
 }
-
 
 void QVTKFramebufferObjectRenderer::synchronize(QQuickFramebufferObject *item)
 {
 	// For the first synchronize
 	if (!m_vtkFboItem)
 	{
-		m_vtkFboItem = static_cast<QVTKFramebufferObjectItem*>(item);
+		m_vtkFboItem = static_cast<QVTKFramebufferObjectItem *>(item);
 	}
 
 	if (!m_vtkFboItem->isInitialized())
@@ -130,8 +128,8 @@ void QVTKFramebufferObjectRenderer::render()
 	if (m_mouseEvent && !m_mouseEvent->isAccepted())
 	{
 		m_vtkRenderWindowInteractor->SetEventInformationFlipY(m_mouseEvent->x(), m_mouseEvent->y(),
-															 (m_mouseEvent->modifiers() & Qt::ControlModifier) > 0 ? 1 : 0,
-															 (m_mouseEvent->modifiers() & Qt::ShiftModifier ) > 0 ? 1 : 0, 0,
+															  (m_mouseEvent->modifiers() & Qt::ControlModifier) > 0 ? 1 : 0,
+															  (m_mouseEvent->modifiers() & Qt::ShiftModifier) > 0 ? 1 : 0, 0,
 															  m_mouseEvent->type() == QEvent::MouseButtonDblClick ? 1 : 0);
 
 		if (m_mouseEvent->type() == QEvent::MouseButtonPress)
@@ -152,8 +150,8 @@ void QVTKFramebufferObjectRenderer::render()
 		if (m_moveEvent->type() == QEvent::MouseMove && m_moveEvent->buttons() & Qt::RightButton)
 		{
 			m_vtkRenderWindowInteractor->SetEventInformationFlipY(m_moveEvent->x(), m_moveEvent->y(),
-																 (m_moveEvent->modifiers() & Qt::ControlModifier) > 0 ? 1 : 0,
-																 (m_moveEvent->modifiers() & Qt::ShiftModifier ) > 0 ? 1 : 0, 0,
+																  (m_moveEvent->modifiers() & Qt::ControlModifier) > 0 ? 1 : 0,
+																  (m_moveEvent->modifiers() & Qt::ShiftModifier) > 0 ? 1 : 0, 0,
 																  m_moveEvent->type() == QEvent::MouseButtonDblClick ? 1 : 0);
 
 			m_vtkRenderWindowInteractor->InvokeEvent(vtkCommand::MouseMoveEvent, m_moveEvent.get());
@@ -233,15 +231,15 @@ void QVTKFramebufferObjectRenderer::openGLInitState()
 
 QOpenGLFramebufferObject *QVTKFramebufferObjectRenderer::createFramebufferObject(const QSize &size)
 {
-	QSize macSize = QSize(size.width()/2, size.height()/2);
+	QSize macSize = QSize(size.width() / 2, size.height() / 2);
 
 	QOpenGLFramebufferObjectFormat format;
 	format.setAttachment(QOpenGLFramebufferObject::Depth);
 
 #ifdef Q_OS_MAC
-	std::unique_ptr<QOpenGLFramebufferObject>framebufferObject(new QOpenGLFramebufferObject(macSize, format));
+	std::unique_ptr<QOpenGLFramebufferObject> framebufferObject(new QOpenGLFramebufferObject(macSize, format));
 #else
-	std::unique_ptr<QOpenGLFramebufferObject>framebufferObject(new QOpenGLFramebufferObject(size, format));
+	std::unique_ptr<QOpenGLFramebufferObject> framebufferObject(new QOpenGLFramebufferObject(size, format));
 #endif
 	m_vtkRenderWindow->SetBackLeftBuffer(GL_COLOR_ATTACHMENT0);
 	m_vtkRenderWindow->SetFrontLeftBuffer(GL_COLOR_ATTACHMENT0);
@@ -253,7 +251,6 @@ QOpenGLFramebufferObject *QVTKFramebufferObjectRenderer::createFramebufferObject
 
 	return framebufferObject.release();
 }
-
 
 void QVTKFramebufferObjectRenderer::initScene()
 {
@@ -344,21 +341,21 @@ void QVTKFramebufferObjectRenderer::updatePlatform()
 		m_platformModel->SetXLength(m_platformWidth);
 		m_platformModel->SetYLength(m_platformDepth);
 		m_platformModel->SetZLength(m_platformThickness);
-		m_platformModel->SetCenter(0.0, 0.0, -m_platformThickness/2);
+		m_platformModel->SetCenter(0.0, 0.0, -m_platformThickness / 2);
 	}
 
 	// Platform Grid
 	vtkSmartPointer<vtkPoints> gridPoints = vtkSmartPointer<vtkPoints>::New();
 	vtkSmartPointer<vtkCellArray> gridCells = vtkSmartPointer<vtkCellArray>::New();
 
-	for (int16_t i = -m_platformWidth/2; i <= m_platformWidth/2; i += m_gridSize)
+	for (int16_t i = -m_platformWidth / 2; i <= m_platformWidth / 2; i += m_gridSize)
 	{
-		createLine(i, -m_platformDepth/2, m_gridBottomHeight, i, m_platformDepth/2, m_gridBottomHeight, gridPoints, gridCells);
+		createLine(i, -m_platformDepth / 2, m_gridBottomHeight, i, m_platformDepth / 2, m_gridBottomHeight, gridPoints, gridCells);
 	}
 
-	for (int16_t i = -m_platformDepth/2; i <= m_platformDepth/2; i += m_gridSize)
+	for (int16_t i = -m_platformDepth / 2; i <= m_platformDepth / 2; i += m_gridSize)
 	{
-		createLine(-m_platformWidth/2, i, m_gridBottomHeight, m_platformWidth/2, i, m_gridBottomHeight, gridPoints, gridCells);
+		createLine(-m_platformWidth / 2, i, m_gridBottomHeight, m_platformWidth / 2, i, m_gridBottomHeight, gridPoints, gridCells);
 	}
 
 	m_platformGrid->SetPoints(gridPoints);
@@ -381,7 +378,6 @@ void QVTKFramebufferObjectRenderer::createLine(const double x1, const double y1,
 	cells->InsertNextCell(line);
 }
 
-
 void QVTKFramebufferObjectRenderer::addModelActor(const std::shared_ptr<Model> model)
 {
 	m_renderer->AddActor(model->getModelActor());
@@ -389,13 +385,12 @@ void QVTKFramebufferObjectRenderer::addModelActor(const std::shared_ptr<Model> m
 	qDebug() << "QVTKFramebufferObjectRenderer::addModelActor(): Model added " << model.get();
 }
 
-
 void QVTKFramebufferObjectRenderer::selectModel(const int16_t x, const int16_t y)
 {
 	qDebug() << "QVTKFramebufferObjectRenderer::selectModel()";
 
 	// Compensate the y-axis flip for the picking
-	m_picker->Pick(x, m_renderer->GetSize()[1]-y, 0, m_renderer);
+	m_picker->Pick(x, m_renderer->GetSize()[1] - y, 0, m_renderer);
 
 	// Get pick position
 	double clickPosition[3];
@@ -406,7 +401,7 @@ void QVTKFramebufferObjectRenderer::selectModel(const int16_t x, const int16_t y
 	{
 		if (m_selectedModel)
 		{
-			m_selectedModel->setMouseDeltaXY(clickPosition[0]-m_selectedModel->getPositionX(), clickPosition[1]-m_selectedModel->getPositionY());
+			m_selectedModel->setMouseDeltaXY(clickPosition[0] - m_selectedModel->getPositionX(), clickPosition[1] - m_selectedModel->getPositionY());
 		}
 		return;
 	}
@@ -438,7 +433,7 @@ void QVTKFramebufferObjectRenderer::selectModel(const int16_t x, const int16_t y
 		this->setIsModelSelected(true);
 
 		// Set mouse click delta from center position
-		m_selectedModel->setMouseDeltaXY(clickPosition[0]-m_selectedModel->getPositionX(), clickPosition[1]-m_selectedModel->getPositionY());
+		m_selectedModel->setMouseDeltaXY(clickPosition[0] - m_selectedModel->getPositionX(), clickPosition[1] - m_selectedModel->getPositionY());
 	}
 	else
 	{
@@ -482,10 +477,9 @@ std::shared_ptr<Model> QVTKFramebufferObjectRenderer::getSelectedModel() const
 }
 
 std::shared_ptr<Model> QVTKFramebufferObjectRenderer::getSelectedModelNoLock() const
-{	
+{
 	return m_processingEngine->getModelFromActor(m_selectedActor);
 }
-
 
 void QVTKFramebufferObjectRenderer::setSelectedModelPositionX(const double positionX)
 {
@@ -514,7 +508,6 @@ double QVTKFramebufferObjectRenderer::getSelectedModelPositionY() const
 {
 	return m_selectedModelPositionY;
 }
-
 
 const bool QVTKFramebufferObjectRenderer::screenToWorld(const int16_t screenX, const int16_t screenY, double worldPos[])
 {
@@ -557,7 +550,7 @@ const bool QVTKFramebufferObjectRenderer::screenToWorld(const int16_t screenX, c
 
 	screenPos[0] = screenX;
 	// Compensate the y-axis flip for the picking
-	screenPos[1] = m_renderer->GetSize()[1]-screenY;
+	screenPos[1] = m_renderer->GetSize()[1] - screenY;
 
 	int16_t withinBounds;
 	withinBounds = placer->ComputeWorldPosition(m_renderer, screenPos, worldPos, worldOrient);
