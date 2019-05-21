@@ -14,14 +14,13 @@
 #include <vtkActor.h>
 #include <vtkCellPicker.h>
 #include <vtkCubeSource.h>
-#include <vtkExternalOpenGLRenderWindow.h>
+#include <vtkGenericOpenGLRenderWindow.h>
 #include <vtkGenericRenderWindowInteractor.h>
 #include <vtkObject.h>
 #include <vtkPoints.h>
 #include <vtkProperty.h>
 #include <vtkRenderer.h>
 #include <vtkSmartPointer.h>
-
 
 class Model;
 class QVTKFramebufferObjectItem;
@@ -75,7 +74,7 @@ private:
 
 	std::shared_ptr<ProcessingEngine> m_processingEngine;
 	QVTKFramebufferObjectItem *m_vtkFboItem = nullptr;
-	vtkSmartPointer<vtkExternalOpenGLRenderWindow> m_vtkRenderWindow;
+	vtkSmartPointer<vtkGenericOpenGLRenderWindow> m_vtkRenderWindow;
 	vtkSmartPointer<vtkRenderer> m_renderer;
 	vtkSmartPointer<vtkGenericRenderWindowInteractor> m_vtkRenderWindowInteractor;
 
