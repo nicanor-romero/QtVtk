@@ -15,6 +15,7 @@
 #include <vtkSTLReader.h>
 #include <vtkTextActor.h>
 #include <vtkTextProperty.h>
+#include <QVTKOpenGLNativeWidget.h>
 
 #include "CommandModel.h"
 #include "Model.h"
